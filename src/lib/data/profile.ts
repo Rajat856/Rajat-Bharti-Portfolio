@@ -9,8 +9,6 @@ export const profile = {
   timezone: "IST (UTC+5:30)",
   availability: "Available for select freelance & consulting work",
   email: "rajatbharti856@gmail.com",
-  phone: "+91 76688 89809",
-  phoneHref: "+917668889809",
   website: "https://rajatbharti.com",
   /**
    * Drop a real PDF at `public/Rajat-Bharti-Resume.pdf` and set this to
@@ -41,7 +39,6 @@ export const profile = {
       icon: "linkedin" as const,
     },
     { label: "Email", handle: "rajatbharti856@gmail.com", href: "mailto:rajatbharti856@gmail.com", icon: "mail" as const },
-    { label: "Phone", handle: "+91 76688 89809", href: "tel:+917668889809", icon: "phone" as const },
     { label: "Website", handle: "rajatbharti.com", href: "https://rajatbharti.com", icon: "globe" as const },
   ],
 

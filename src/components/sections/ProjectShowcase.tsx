@@ -102,10 +102,14 @@ export function ProjectShowcase() {
         </div>
 
         {/* ---------------------------------------------- Desktop: sticky -- */}
-        <div className="mt-16 hidden gap-16 lg:grid lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] xl:gap-24">
-          {/* Pinned visual column */}
+        {/* The visual gets ~60% of the width: the covers are full desk scenes,
+            and at half-width the screen inside them was too small to read. */}
+        <div className="mt-10 hidden gap-12 lg:grid lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] xl:gap-16">
+          {/* Pinned visual column — a full-viewport sticky box that centres
+              the image, so it sits level with the panel being read instead of
+              hugging the top with a dead band beneath it. */}
           <div className="relative">
-            <div className="sticky top-28">
+            <div className="sticky top-0 flex h-screen items-center pt-16">
               <StickyVisual projects={projects} active={active} />
             </div>
           </div>
@@ -167,43 +171,22 @@ function StickyVisual({ projects, active }: { projects: Project[]; active: numbe
         </motion.div>
       </AnimatePresence>
 
-      {/* Bottom scrim so the caption stays readable over any artwork. */}
+      {/* Progress pill. No caption or scrim here: the title already sits in
+          the text column beside it, and a dark bar across the bottom was
+          covering the device in every mockup. */}
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(to_top,rgba(0,0,0,0.72),transparent)]"
+        className="absolute bottom-4 right-4 flex items-center gap-1.5 rounded-full bg-black/40 px-3 py-2 backdrop-blur-md"
         aria-hidden
-      />
-
-      {/* Caption + progress rail */}
-      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6">
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={current.slug}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
-              {current.platform} · {current.year}
-            </p>
-            <p className="mt-1.5 font-display text-2xl leading-tight text-white">
-              {current.title.split(" — ")[0]}
-            </p>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Segment indicator — one bar per project. */}
-        <div className="flex shrink-0 items-center gap-1.5 pb-1" aria-hidden>
-          {projects.map((p, i) => (
-            <span
-              key={p.slug}
-              className={cn(
-                "h-0.5 rounded-full transition-all duration-500",
-                i === active ? "w-6 bg-white" : "w-2 bg-white/35",
-              )}
-            />
-          ))}
-        </div>
+      >
+        {projects.map((p, i) => (
+          <span
+            key={p.slug}
+            className={cn(
+              "h-0.5 rounded-full transition-all duration-500",
+              i === active ? "w-6 bg-white" : "w-2 bg-white/40",
+            )}
+          />
+        ))}
       </div>
     </div>
   );
@@ -227,9 +210,9 @@ function DetailPanel({
   return (
     <motion.article
       ref={registerRef}
-      // Tall enough that only one panel owns the viewport centre at a time, but
-      // not so tall that short copy leaves a screen of empty space behind it.
-      className="flex min-h-[62vh] flex-col justify-center py-14"
+      // Close to a full viewport per project and vertically centred, so each
+      // panel's copy lines up with the centred image while it is being read.
+      className="flex min-h-[88vh] flex-col justify-center py-14"
       initial={reduced ? undefined : { opacity: 0, y: 28 }}
       whileInView={reduced ? undefined : { opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.35 }}
@@ -246,7 +229,7 @@ function DetailPanel({
         </span>
       </div>
 
-      <h3 className="mt-5 font-display text-4xl leading-[1.05] tracking-tight text-ink xl:text-5xl">
+      <h3 className="mt-5 font-display text-4xl leading-[1.05] tracking-tight text-ink xl:text-[2.75rem]">
         {project.title.split(" — ")[0]}
       </h3>
 

@@ -95,7 +95,6 @@ const personSchema = {
   image: `${siteUrl}${profile.avatar}`,
   jobTitle: profile.role,
   email: `mailto:${profile.email}`,
-  telephone: profile.phoneHref,
   address: { "@type": "PostalAddress", addressLocality: "Bengaluru", addressRegion: "Karnataka", addressCountry: "IN" },
   description: profile.summary,
   sameAs: profile.socials.filter((s) => s.href.startsWith("http")).map((s) => s.href),

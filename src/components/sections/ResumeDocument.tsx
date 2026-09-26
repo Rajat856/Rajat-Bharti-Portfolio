@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MapPin, Phone, Globe, Printer } from "lucide-react";
+import { Mail, MapPin, Globe, Printer } from "lucide-react";
 import { LinkedInIcon } from "@/components/ui/icons";
 import { profile } from "@/lib/data/profile";
 import { awards, education, experience } from "@/lib/data/experience";
@@ -65,12 +65,6 @@ export function ResumeDocument() {
                 <Mail className="size-3.5 print:hidden" aria-hidden />
                 <a href={`mailto:${profile.email}`} className="hover:text-ink">
                   {profile.email}
-                </a>
-              </li>
-              <li className="flex items-center gap-1.5">
-                <Phone className="size-3.5 print:hidden" aria-hidden />
-                <a href={`tel:${profile.phoneHref}`} className="hover:text-ink">
-                  {profile.phone}
                 </a>
               </li>
               <li className="flex items-center gap-1.5">

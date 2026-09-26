@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Clock, Globe, Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Globe, Mail, MapPin } from "lucide-react";
 import { LinkedInIcon } from "@/components/ui/icons";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { ContactForm } from "@/components/sections/ContactForm";
@@ -15,7 +15,6 @@ export const metadata: Metadata = {
 
 const channels = [
   { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-  { icon: Phone, label: "Phone", value: profile.phone, href: `tel:${profile.phoneHref}` },
   {
     icon: LinkedInIcon,
     label: "LinkedIn",

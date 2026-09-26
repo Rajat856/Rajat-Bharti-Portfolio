@@ -54,13 +54,13 @@ export const projects: Project[] = [
   /* ------------------------------------------------------------- Shopify -- */
   {
     slug: "eye-instruments-india",
+    featured: true,
     title: "Eye Instruments India — Ophthalmic Surgical Marketplace",
     client: "Eye Instruments India",
     platform: "Shopify",
     discipline: "E-Commerce",
     year: "2025",
     role: "Shopify Developer",
-    featured: true,
     url: "https://eyeinstrumentsindia.com",
     summary:
       "A Shopify storefront for ophthalmic surgical instruments — 40+ instrument categories, pre-assembled procedure sets, and a catalogue built for surgeons who shop by procedure, not by SKU.",
@@ -87,6 +87,7 @@ export const projects: Project[] = [
 
   {
     slug: "kindly-objects",
+    featured: true,
     title: "Kindly Objects — Personalised 3D-Printed Keepsakes",
     client: "Kindly Objects",
     platform: "Shopify",
@@ -119,13 +120,13 @@ export const projects: Project[] = [
   /* ------------------------------------------------------------- Webflow -- */
   {
     slug: "shipturtle",
+    featured: true,
     title: "Shipturtle — WordPress to Webflow Redesign",
     client: "Shipturtle (via Virusha Technologies)",
     platform: "Webflow",
     discipline: "Web Design",
     year: "2024",
     role: "Lead Designer & Developer",
-    featured: true,
     url: "https://www.shipturtle.com/",
     summary:
       "A full replatform of a multi-vendor marketplace SaaS site — from a heavy WordPress build to a fast, editorially flexible Webflow system designed in Figma.",
@@ -151,6 +152,7 @@ export const projects: Project[] = [
   },
   {
     slug: "virusha-tech",
+    featured: true,
     title: "Virusha.tech — Agency Site & Service Architecture",
     client: "Virusha Technologies",
     platform: "Webflow",
@@ -186,7 +188,6 @@ export const projects: Project[] = [
     discipline: "E-Commerce",
     year: "2025",
     role: "Designer & Developer",
-    featured: true,
     url: "https://greenverz.com",
     summary:
       "A storefront where the product is a planted tree — occasion-based gifting on the front, geo-tagged impact tracking and corporate ESG reporting underneath.",
@@ -243,6 +244,7 @@ export const projects: Project[] = [
   },
   {
     slug: "speedway-surgicals",
+    featured: true,
     title: "Speedway Surgicals — Global Ophthalmic Instruments Store",
     client: "Speedway Surgicals Co.",
     platform: "WooCommerce",
@@ -508,7 +510,6 @@ export const projects: Project[] = [
     discipline: "Web Design",
     year: "2025",
     role: "Designer & Developer",
-    featured: true,
     url: "https://robgence-ebnd.vercel.app/",
     summary:
       "A cognitive-robotics platform told across an 800vh scroll film — the page behaves like a continuous shot rather than a stack of sections.",
@@ -711,6 +712,7 @@ export const projects: Project[] = [
   },
   {
     slug: "doodl-space",
+    featured: true,
     title: "Doodl Space — Creative Subscription Platform",
     client: "Doodl Space",
     platform: "AI Sites",
@@ -737,6 +739,7 @@ export const projects: Project[] = [
   },
   {
     slug: "robgence-production",
+    featured: true,
     title: "Robgence — Physical AI Data Infrastructure",
     client: "Robgence",
     platform: "AI Sites",
@@ -795,37 +798,6 @@ export const projects: Project[] = [
     cover: { from: "#475569", to: "#020617", image: "/projects/speedway-erp.jpg" },
   },
   {
-    slug: "ai-ops-automation",
-    title: "AI Operations Automation Suite",
-    client: "Multiple clients (via Virusha Technologies)",
-    platform: "Web Apps",
-    discipline: "Automation",
-    year: "2024 — present",
-    role: "Automation Architect",
-    featured: true,
-    summary:
-      "A reusable library of n8n, Make.com and Zapier workflows that quietly removes the copy-paste layer from a business — lead routing, enrichment, reporting and content ops.",
-    description: [
-      "Most small businesses don't need a bespoke internal tool. They need six or seven reliable workflows that stop humans from moving data between tabs.",
-      "I built a repeatable automation stack: inbound lead capture and enrichment, CRM sync, AI-drafted follow-ups held for human approval, scheduled reporting, and content pipelines that take a brief and return publish-ready drafts.",
-      "Each workflow ships with error handling, retry logic, and a notification channel — because an automation that fails silently is worse than no automation at all.",
-    ],
-    deliverables: [
-      "Lead capture → enrichment → CRM sync pipelines",
-      "AI-assisted drafting with a human approval gate",
-      "Scheduled reporting into Slack / email / Sheets",
-      "Content operations pipelines from brief to draft",
-      "Error handling, retries and failure alerting on every flow",
-    ],
-    stack: ["n8n", "Make.com", "Zapier", "REST APIs", "Generative AI", "Webhooks"],
-    metrics: [
-      { label: "Workflows live", value: "40+" },
-      { label: "Manual steps removed", value: "Hours/week" },
-      { label: "Silent failures", value: "0 by design" },
-    ],
-    cover: { from: "#22d3ee", to: "#4e2fc0" },
-  },
-  {
     slug: "indiankaarigars",
     title: "IndianKaarigars — Empowering Artisans Online",
     client: "IndianKaarigars (via Virusha Technologies)",
@@ -878,7 +850,20 @@ export const projectCategories = [
   "Brand",
 ] as const;
 
-export const featuredProjects = projects.filter((p) => p.featured);
+/** Homepage showcase, in the exact order it should appear. */
+export const homeShowcase = [
+  "doodl-space",
+  "robgence-production",
+  "shipturtle",
+  "kindly-objects",
+  "speedway-surgicals",
+  "eye-instruments-india",
+  "virusha-tech",
+] as const;
+
+export const featuredProjects = homeShowcase
+  .map((slug) => projects.find((p) => p.slug === slug))
+  .filter((p): p is Project => Boolean(p));
 
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);
