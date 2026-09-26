@@ -619,7 +619,7 @@ export function HeroRotating() {
         <h1 className="mt-8 font-display text-[clamp(3rem,9vw,8rem)] leading-[0.92] tracking-[-0.045em]">
           I build
           <br />
-          <span className="relative inline-block h-[1.05em] overflow-hidden align-bottom">
+          <span className="relative -mb-[0.22em] inline-block h-[1.27em] overflow-hidden pb-[0.22em] align-bottom">
             <motion.span
               key={rotatingWords[i]}
               initial={{ y: "100%" }}

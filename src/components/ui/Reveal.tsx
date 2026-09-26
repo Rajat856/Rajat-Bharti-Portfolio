@@ -140,7 +140,13 @@ export function RevealText({
       aria-label={text}
     >
       {words.map((word, i) => (
-        <span key={`${word}-${i}`} className="inline-block overflow-hidden align-bottom">
+        // Padding extends the clip box past the tight display line-height so
+        // descenders (g, j, p, y) aren't cut; the negative margin cancels the
+        // padding so line spacing is unchanged.
+        <span
+          key={`${word}-${i}`}
+          className="-mb-[0.22em] -mt-[0.08em] inline-block overflow-hidden pb-[0.22em] pt-[0.08em] align-bottom"
+        >
           <motion.span
             className={cn("inline-block", wordClassName)}
             variants={{

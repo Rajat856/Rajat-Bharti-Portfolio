@@ -150,12 +150,14 @@ export function SpotlightHero({
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#07060c] pb-16 pt-32 [--sx:50%] [--sy:45%]"
     >
       {/* Faint work grid, always hinted */}
-      <div className="absolute inset-[-4%] grid grid-cols-3 gap-4 p-4 opacity-[0.13] md:grid-cols-4" aria-hidden>
+      <div className="absolute inset-[-4%] grid grid-cols-3 gap-4 p-4 opacity-[0.09] md:grid-cols-4 md:opacity-[0.13]" aria-hidden>
         {grid}
       </div>
-      {/* Same grid, fully lit inside the cursor's spotlight */}
+      {/* Same grid, fully lit inside the cursor's spotlight. Desktop only:
+          touch devices have no cursor, so the spotlight would sit frozen
+          behind the copy and make it unreadable. */}
       <div
-        className="absolute inset-[-4%] grid grid-cols-3 gap-4 p-4 md:grid-cols-4"
+        className="absolute inset-[-4%] hidden grid-cols-4 gap-4 p-4 md:grid"
         style={{
           WebkitMaskImage: "radial-gradient(420px circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
           maskImage: "radial-gradient(420px circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
@@ -176,7 +178,7 @@ export function SpotlightHero({
         >
           {title}
         </motion.h1>
-        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">{description}</p>
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">{description}</p>
         <div className="pointer-events-auto mt-10 flex flex-wrap justify-center gap-3">
           <Button href={primary.href} variant="secondary" size="lg" arrow>
             {primary.label}
