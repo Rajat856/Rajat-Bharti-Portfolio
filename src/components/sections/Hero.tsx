@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Hero3D } from "@/components/three/Hero3D";
+import { HeroAvatar } from "@/components/sections/HeroAvatar";
 import { Button } from "@/components/ui/Button";
 import { Reveal, RevealText } from "@/components/ui/Reveal";
 import { Aurora, Marquee } from "@/components/ui/Primitives";
@@ -120,15 +120,9 @@ export function Hero() {
             </Reveal>
           </motion.div>
 
-          {/* ---------------------------------------------- 3D laptop -- */}
+          {/* ------------------------------------------ 3D avatar ------ */}
           <motion.div style={sceneStyle} className="relative">
-            {/* Floor glow the laptop stands on. */}
-            <div
-              className="pointer-events-none absolute inset-x-[8%] bottom-[6%] h-1/2 rounded-full blur-3xl"
-              aria-hidden
-              style={{ background: "radial-gradient(ellipse at center, var(--glow-a), transparent 70%)" }}
-            />
-            <Hero3D className="relative aspect-[3/2] w-full md:aspect-[5/4]" />
+            <HeroAvatar />
           </motion.div>
         </div>
       </div>
