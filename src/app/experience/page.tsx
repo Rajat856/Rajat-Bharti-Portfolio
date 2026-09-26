@@ -38,7 +38,7 @@ export default function ExperiencePage() {
       </PageHeader>
 
       {/* Quick figures */}
-      <section className="relative pb-8">
+      <section className="relative pb-8 pt-12 sm:pt-16">
         <div className="container-page">
           <RevealGroup className="grid gap-px overflow-hidden rounded-4xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
             {[

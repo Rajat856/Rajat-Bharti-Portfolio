@@ -52,7 +52,7 @@ export default function ContactPage() {
         description="The more specific you are about the problem, the more useful my first reply will be. I read every message personally and answer within a day."
       />
 
-      <section className="relative pb-24 sm:pb-32">
+      <section className="relative pb-24 pt-12 sm:pb-32 sm:pt-16">
         <div className="container-page">
           <div className="grid gap-12 lg:grid-cols-[1.35fr_1fr] lg:gap-16">
             <Reveal>

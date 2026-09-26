@@ -44,7 +44,7 @@ export function CertificationGrid() {
   }, []);
 
   return (
-    <section className="relative pb-24 sm:pb-32">
+    <section className="relative pb-24 pt-12 sm:pb-32 sm:pt-16">
       <div className="container-page">
         <div
           className="flex flex-wrap items-center gap-2 border-b border-line pb-6"

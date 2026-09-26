@@ -58,7 +58,7 @@ export default function ServicesPage() {
       </PageHeader>
 
       {/* Detailed service list */}
-      <section className="relative pb-8">
+      <section className="relative pb-8 pt-12 sm:pt-16">
         <div className="container-page">
           <ul className="divide-y divide-[color:var(--line)] border-y border-line">
             {services.map((service, i) => (

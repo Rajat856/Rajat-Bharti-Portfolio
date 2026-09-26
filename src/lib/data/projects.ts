@@ -850,6 +850,9 @@ export const projectCategories = [
   "Brand",
 ] as const;
 
+/** Lead project on the /portfolio page — shown first, full width. */
+export const portfolioLead = "doodl-space";
+
 /** Homepage showcase, in the exact order it should appear. */
 export const homeShowcase = [
   "doodl-space",

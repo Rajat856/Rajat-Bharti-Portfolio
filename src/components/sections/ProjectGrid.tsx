@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
-import { projects, projectPlatforms, type Project } from "@/lib/data/projects";
+import { portfolioLead, projects, projectPlatforms, type Project } from "@/lib/data/projects";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { ProjectCover } from "@/components/ui/ProjectCover";
 import { cn } from "@/lib/utils";
@@ -13,7 +13,13 @@ export function ProjectGrid() {
   const [filter, setFilter] = useState<string>("All");
 
   const filtered = useMemo(
-    () => (filter === "All" ? projects : projects.filter((p) => p.platform === filter)),
+    () => {
+      const list = filter === "All" ? projects : projects.filter((p) => p.platform === filter);
+      // The lead project always opens the grid (it gets the full-width card).
+      return [...list].sort(
+        (a, b) => Number(b.slug === portfolioLead) - Number(a.slug === portfolioLead),
+      );
+    },
     [filter],
   );
 
