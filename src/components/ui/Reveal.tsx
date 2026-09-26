@@ -145,7 +145,7 @@ export function RevealText({
         // padding so line spacing is unchanged.
         <span
           key={`${word}-${i}`}
-          className="-mb-[0.22em] -mt-[0.08em] inline-block overflow-hidden pb-[0.22em] pt-[0.08em] align-bottom"
+          className="-mb-[0.24em] -mt-[0.3em] inline-block overflow-hidden pb-[0.24em] pt-[0.3em] align-bottom"
         >
           <motion.span
             className={cn("inline-block", wordClassName)}

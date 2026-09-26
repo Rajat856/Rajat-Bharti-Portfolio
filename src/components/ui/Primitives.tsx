@@ -104,7 +104,9 @@ export function Marquee({
         style={reverse ? { animationDirection: "reverse" } : undefined}
       >
         {doubled.map((item, i) => (
-          <span key={`${item}-${i}`} className={cn("flex items-center gap-8", itemClassName)}>
+          // Vertical padding (in the item's own em) keeps descenders of large
+          // display text inside the overflow-hidden track.
+          <span key={`${item}-${i}`} className={cn("flex items-center gap-8 py-[0.12em]", itemClassName)}>
             <span className="whitespace-nowrap">{item}</span>
             <span className="text-faint" aria-hidden>
               {separator}

@@ -126,13 +126,55 @@ export function SpotlightHero({
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const onMove = (e: PointerEvent) => {
-      const r = el.getBoundingClientRect();
-      el.style.setProperty("--sx", `${e.clientX - r.left}px`);
-      el.style.setProperty("--sy", `${e.clientY - r.top}px`);
+    const set = (x: number, y: number) => {
+      el.style.setProperty("--sx", `${x}px`);
+      el.style.setProperty("--sy", `${y}px`);
     };
-    el.addEventListener("pointermove", onMove);
-    return () => el.removeEventListener("pointermove", onMove);
+    const local = (cx: number, cy: number) => {
+      const r = el.getBoundingClientRect();
+      return [cx - r.left, cy - r.top] as const;
+    };
+
+    // Mouse: spotlight follows the cursor.
+    const onPointer = (e: PointerEvent) => {
+      if (e.pointerType === "mouse") set(...local(e.clientX, e.clientY));
+    };
+
+    // Touch has no hover: follow the finger while touching, otherwise let the
+    // spotlight drift on its own so phones still see the colour reveal.
+    const touch = window.matchMedia("(hover: none)").matches;
+    let lastTouch = -1e9;
+    const onTouch = (e: TouchEvent) => {
+      const t = e.touches[0];
+      if (!t) return;
+      lastTouch = performance.now();
+      set(...local(t.clientX, t.clientY));
+    };
+    let raf = 0;
+    const drift = (now: number) => {
+      if (now - lastTouch > 1800) {
+        const r = el.getBoundingClientRect();
+        const t = now / 1000;
+        set(
+          r.width * (0.5 + 0.34 * Math.sin(t * 0.55)),
+          r.height * (0.5 + 0.36 * Math.sin(t * 0.37 + 1.3)),
+        );
+      }
+      raf = requestAnimationFrame(drift);
+    };
+
+    el.addEventListener("pointermove", onPointer);
+    if (touch) {
+      el.addEventListener("touchstart", onTouch, { passive: true });
+      el.addEventListener("touchmove", onTouch, { passive: true });
+      raf = requestAnimationFrame(drift);
+    }
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("pointermove", onPointer);
+      el.removeEventListener("touchstart", onTouch);
+      el.removeEventListener("touchmove", onTouch);
+    };
   }, []);
 
   const grid = (
@@ -155,14 +197,13 @@ export function SpotlightHero({
       <div className="absolute inset-[-6%] grid content-center grid-cols-2 gap-3 p-3 opacity-[0.22] md:inset-[-4%] md:grid-cols-4 md:gap-4 md:p-4 md:opacity-[0.13]" aria-hidden>
         {grid}
       </div>
-      {/* Same grid, fully lit inside the cursor's spotlight. Desktop only:
-          touch devices have no cursor, so the spotlight would sit frozen
-          behind the copy and make it unreadable. */}
+      {/* Same grid, fully lit inside the spotlight (cursor on desktop; finger
+          or an automatic drift on touch screens). */}
       <div
-        className="absolute inset-[-4%] hidden grid-cols-4 gap-4 p-4 md:grid"
+        className="absolute inset-[-6%] grid grid-cols-2 content-center gap-3 p-3 [--r:240px] md:inset-[-4%] md:grid-cols-4 md:gap-4 md:p-4 md:[--r:420px]"
         style={{
-          WebkitMaskImage: "radial-gradient(420px circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
-          maskImage: "radial-gradient(420px circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
+          WebkitMaskImage: "radial-gradient(var(--r) circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
+          maskImage: "radial-gradient(var(--r) circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
         }}
         aria-hidden
       >
