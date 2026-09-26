@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import {
+  HeroAvatar3D,
   HeroBento,
   HeroEditorial,
   HeroFan,
@@ -22,6 +23,10 @@ export default function HeroLabPage() {
       <HeroReel />
       <div className="h-px bg-line" />
       <HeroPortrait />
+      <div className="h-px bg-line" />
+      <HeroAvatar3D src="/images/avatar-3d-character.webp" letter="B1" name="3D character + depth parallax" fadeBottom />
+      <div className="h-px bg-line" />
+      <HeroAvatar3D src="/images/avatar-3d-figurine.webp" letter="B2" name="3D figurine + depth parallax" />
       <div className="h-px bg-line" />
       <HeroShader />
       <div className="h-px bg-line" />

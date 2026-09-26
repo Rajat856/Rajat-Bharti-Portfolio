@@ -647,3 +647,145 @@ export function HeroRotating() {
     </section>
   );
 }
+
+/* ============================== B+ · 3D avatar, layered parallax ========= */
+
+/**
+ * Hero B rebuilt around a 3D-rendered avatar. The avatar, the glow behind it
+ * and the floating cards sit on different Z planes inside one preserve-3d
+ * stage that tilts with the cursor — so they shift against each other the
+ * way a real object does, instead of moving as one flat picture.
+ */
+export function HeroAvatar3D({
+  src,
+  letter,
+  name,
+  fadeBottom = false,
+}: {
+  src: string;
+  letter: string;
+  name: string;
+  /** Waist-up renders end in a hard crop line; fade it into the page. */
+  fadeBottom?: boolean;
+}) {
+  const stage = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const el = stage.current;
+    if (!el) return;
+    let raf = 0;
+    const cur = { x: 0, y: 0 };
+    const tgt = { x: 0, y: 0 };
+    const onMove = (e: PointerEvent) => {
+      tgt.x = (e.clientX / window.innerWidth) * 2 - 1;
+      tgt.y = (e.clientY / window.innerHeight) * 2 - 1;
+    };
+    const tick = () => {
+      cur.x += (tgt.x - cur.x) * 0.07;
+      cur.y += (tgt.y - cur.y) * 0.07;
+      el.style.transform = `rotateY(${cur.x * 14}deg) rotateX(${-cur.y * 10}deg)`;
+      raf = requestAnimationFrame(tick);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    tick();
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("pointermove", onMove);
+    };
+  }, []);
+
+  const card = "glass absolute rounded-2xl px-4 py-3 shadow-[0_24px_50px_-20px_rgba(20,10,60,0.4)]";
+
+  return (
+    <section className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-32">
+      <Label letter={letter} name={name} />
+      <div className="container-page grid items-center gap-10 lg:grid-cols-[1.05fr_1fr]">
+        <div>
+          <motion.span
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-[13px] text-muted"
+          >
+            <span className="size-1.5 rounded-full bg-emerald-400" /> Available for select projects
+          </motion.span>
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease }}
+            className="mt-7 font-display text-[clamp(2.8rem,6.5vw,5.5rem)] leading-[0.95] tracking-[-0.04em]"
+          >
+            Hi, I&apos;m Rajat.
+            <br />
+            <span className="text-accent">I build for the web.</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="mt-6 max-w-lg text-lg leading-relaxed text-muted"
+          >
+            Senior Web Developer &amp; AI Automation Engineer. Shopify, Webflow, WordPress and
+            custom builds — plus the automation that keeps them running.
+          </motion.p>
+          <div className="mt-9">
+            <Ctas />
+          </div>
+        </div>
+
+        <div className="relative mx-auto aspect-[4/5] w-full max-w-[480px] [perspective:1100px]">
+          <div ref={stage} className="absolute inset-0 [transform-style:preserve-3d] will-change-transform">
+            {/* Back plane: glow disc + ring */}
+            <div
+              className="absolute inset-[8%] rounded-full [transform:translateZ(-80px)]"
+              style={{
+                background:
+                  "radial-gradient(circle at 50% 45%, color-mix(in oklab, var(--color-brand-500) 55%, transparent), color-mix(in oklab, var(--color-cyan-glow) 25%, transparent) 55%, transparent 72%)",
+              }}
+            />
+            <div className="absolute inset-[4%] rounded-full border border-line-strong [transform:translateZ(-60px)]" />
+
+            {/* Avatar */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1, ease }}
+              className="absolute inset-0 [transform:translateZ(0px)]"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={src}
+                alt={profile.name}
+                className="size-full object-contain object-bottom drop-shadow-[0_40px_60px_rgba(20,10,60,0.35)]"
+                style={
+                  fadeBottom
+                    ? {
+                        WebkitMaskImage: "linear-gradient(to bottom, black 78%, transparent 100%)",
+                        maskImage: "linear-gradient(to bottom, black 78%, transparent 100%)",
+                      }
+                    : undefined
+                }
+              />
+            </motion.div>
+
+            {/* Front plane: floating cards */}
+            <div className={`${card} -left-6 top-[14%] [transform:translateZ(90px)] sm:-left-12`}>
+              <p className="font-display text-3xl leading-none">29</p>
+              <p className="mt-1 text-xs text-muted">sites shipped</p>
+            </div>
+            <div className={`${card} -right-4 top-[38%] [transform:translateZ(130px)] sm:-right-10`}>
+              <p className="text-xs text-muted">Builds on</p>
+              <p className="mt-1 text-sm font-medium">Shopify · Webflow · WordPress</p>
+            </div>
+            <div className={`${card} -left-4 bottom-[18%] [transform:translateZ(110px)] sm:-left-14`}>
+              <p className="text-sm font-medium">Chief of Staff</p>
+              <p className="text-xs text-accent">ProductOS</p>
+            </div>
+            <div className={`${card} right-2 bottom-[4%] [transform:translateZ(70px)]`}>
+              <p className="font-display text-3xl leading-none">5+</p>
+              <p className="mt-1 text-xs text-muted">years building</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
