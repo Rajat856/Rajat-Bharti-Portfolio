@@ -46,6 +46,10 @@ export type Project = {
   stack: string[];
   metrics?: { label: string; value: string }[];
   url?: string;
+  /** Full-length homepage capture (in /public/projects/full). Shown in a
+   *  scrollable browser frame on the case study — essential for projects
+   *  whose site is no longer online. */
+  homepageShot?: string;
   featured?: boolean;
   cover: { from: string; to: string; image?: string };
 };
@@ -115,6 +119,37 @@ export const projects: Project[] = [
       { label: "Made to order in", value: "5–7 days" },
     ],
     cover: { from: "#d6c7b0", to: "#6b5b45", image: "/projects/kindly-objects.jpg" },
+  },
+
+  {
+    slug: "blue-barrows",
+    title: "Blue Barrows — Marketplace for Homegrown Brands",
+    client: "Blue Barrows India Pvt Ltd",
+    platform: "Shopify",
+    discipline: "E-Commerce",
+    year: "2023",
+    role: "Shopify Developer",
+    homepageShot: "/projects/full/blue-barrows.jpg",
+    summary:
+      "A premium multi-vendor marketplace for Indian homegrown brands — 5,000+ artists and brands across décor, beauty, clothing and kitchenware, shipping worldwide.",
+    description: [
+      "Blue Barrows is an IIM alumni initiative: a curated marketplace where shoppers buy handicrafts, home décor, art and accessories from more than 5,000 Indian artists and homegrown brands, with worldwide shipping.",
+      "A marketplace home page has two jobs at once — make browsing feel curated, and give every seller visible credit. Category circles lead into aromatherapy, bags and wallets, beauty, clothing, décor, furnishing and combos; every product card carries its brand or seller name alongside price and sale state.",
+      "Merchandising drives the rest of the page: bestsellers, latest-on-sale and weekly-featured rails, a live 'sale ends soon' countdown, a blog, and app-download QR codes for Android and iOS. A trust strip covers free shipping, secure payments, 24/7 support and returns, and the footer routes sellers to onboarding, fee structure and a seller support centre.",
+    ],
+    deliverables: [
+      "Shopify storefront for a multi-vendor marketplace",
+      "Category navigation and brand/seller attribution on every product card",
+      "Bestseller, sale and weekly-featured merchandising rails",
+      "Sale countdown and promotional hero system",
+      "Seller onboarding routes, app-download section and trust strip",
+    ],
+    stack: ["Shopify", "Liquid", "Multi-vendor Marketplace", "E-Commerce", "Merchandising"],
+    metrics: [
+      { label: "Artists & brands", value: "5,000+" },
+      { label: "Shipping", value: "Worldwide" },
+    ],
+    cover: { from: "#1e3a8a", to: "#0f172a", image: "/projects/blue-barrows.jpg" },
   },
 
   /* ------------------------------------------------------------- Webflow -- */
@@ -447,6 +482,60 @@ export const projects: Project[] = [
       { label: "Brokerage", value: "₹0" },
     ],
     cover: { from: "#0f766e", to: "#1e293b", image: "/projects/hedge-homes.jpg" },
+  },
+
+  {
+    slug: "kazanan-agro",
+    title: "Kazanan Agro — Superfood AgriTech Site",
+    client: "Kazanan Agro",
+    platform: "WordPress",
+    discipline: "Web Design",
+    year: "2022",
+    role: "Web Developer",
+    homepageShot: "/projects/full/kazanan-agro.jpg",
+    summary:
+      "A site for an AgriTech building a sustainable superfood value chain with Indian farmers — moringa, spirulina, turmeric and ginger, from farm to buyer.",
+    description: [
+      "Kazanan Agro works with farmers to build a superfood value chain, starting with moringa. The goal is regular, improved income for growers through companion cropping, organic practice and technology — and the site has to speak to both buyers of the product and partners in the mission.",
+      "The homepage opens on moringa itself, 'the miracle tree', with a sourcing call to action, then moves through the company's purpose into a product grid — moringa, spirulina, turmeric, ginger and lines still to come — and a projects showcase of the team's agronomy and data work.",
+      "Credibility comes from customer testimonials on real results with moringa and spirulina, a direct phone line, and an enquiry form that lets visitors choose between sourcing from Kazanan or growing with them.",
+    ],
+    deliverables: [
+      "WordPress build with hero slider and sourcing call to action",
+      "Product grid for the superfood range",
+      "Projects showcase and customer testimonials carousel",
+      "Enquiry form routed by intent: source from us or grow with us",
+      "Newsletter signup and contact footer",
+    ],
+    stack: ["WordPress", "PHP", "Elementor", "Responsive Design", "Forms"],
+    cover: { from: "#15803d", to: "#14532d", image: "/projects/kazanan-agro.jpg" },
+  },
+  {
+    slug: "joyeux",
+    title: "Joyeux — Financial Gifting App Website",
+    client: "E-Joyeux Technologies Pvt Ltd",
+    platform: "WordPress",
+    discipline: "Web Design",
+    year: "2023",
+    role: "Designer & Developer",
+    homepageShot: "/projects/full/joyeux.jpg",
+    summary:
+      "An Adobe XD design built pixel-for-pixel in WordPress: the launch site for an app that turns gifts into investments — digital gold, mutual funds and more.",
+    description: [
+      "Joyeux lets people celebrate occasions by gifting something that grows in value — digital gold and silver, mutual funds, stocks, fixed deposits, insurance and fractional real estate — through a mobile app.",
+      "The design arrived as an Adobe XD file, and the job was to rebuild it faithfully in WordPress: the deep-teal gradient sections, the handwritten accent type, and phone mockups that walk through gifting, investing and portfolio tracking.",
+      "Everything on the page points at one conversion: getting the app installed. Visitors can request a download link by SMS or go straight to Google Play or the App Store, with product offerings, features and an FAQ answering questions along the way.",
+    ],
+    deliverables: [
+      "Adobe XD to WordPress build, matched to the design",
+      "App-flow sections with device mockups",
+      "Product offerings grid and features & benefits cards",
+      "SMS 'send app link' form and store badges",
+      "FAQ accordion and legal page structure",
+    ],
+    stack: ["Adobe XD", "WordPress", "Elementor", "Responsive Design", "Forms"],
+    metrics: [{ label: "Investment products", value: "6" }],
+    cover: { from: "#0f766e", to: "#134e4a", image: "/projects/joyeux.jpg" },
   },
 
   /* ------------------------------------------------------------ AI Sites -- */
@@ -799,33 +888,29 @@ export const projects: Project[] = [
   },
   {
     slug: "indiankaarigars",
-    title: "IndianKaarigars — Empowering Artisans Online",
+    title: "Indian Kaarigars — Handmade Crafts Store",
     client: "IndianKaarigars (via Virusha Technologies)",
-    platform: "WooCommerce",
+    platform: "WordPress",
     discipline: "E-Commerce",
     year: "2023",
     role: "Designer & Developer",
+    homepageShot: "/projects/full/indiankaarigars.jpg",
     summary:
-      "An e-commerce storefront that puts Indian craftspeople — not just their products — at the centre of the shopping experience.",
+      "An editorial storefront for ethically inspired handmade crafts — built so Indian artisans and their states of origin lead, not just the products.",
     description: [
-      "IndianKaarigars sells handcrafted goods made by artisans across India. A generic store template would have flattened exactly what makes the catalogue worth buying.",
-      "I designed a storefront where each product links back to the maker: artisan profiles, craft provenance, and story-led collection pages sitting alongside a conventional, frictionless checkout.",
-      "The build covers the full commerce stack — catalogue, variants, payment gateway, shipping rules and order notifications.",
+      "Indian Kaarigars sells handcrafted goods made by artisans across India. A generic store template would have flattened exactly what makes the catalogue worth buying: the people and places behind each piece.",
+      "The design is editorial rather than catalogue-first — large photography, a serif display face and generous whitespace — with a 'shop by state' filter (Andhra Pradesh, Assam, Arunachal Pradesh, Jharkhand and more) so buyers can browse by craft tradition.",
+      "Storytelling sections, a brand film, testimonials and an enquiry form sit alongside the commerce flow, so the site works as both a shop and a showcase for India's craft heritage.",
     ],
     deliverables: [
-      "Story-led storefront design with artisan profile system",
-      "WooCommerce catalogue: variants, collections, inventory",
-      "Payment gateway and shipping-rule configuration",
-      "Transactional email and order-notification setup",
-      "Product-schema markup for rich search results",
+      "Editorial storefront design and WordPress build",
+      "Shop-by-state browsing across craft traditions",
+      "Story sections, brand film and testimonials",
+      "WooCommerce catalogue and checkout",
+      "Enquiry form and contact section",
     ],
-    stack: ["WordPress", "WooCommerce", "Payment Gateways", "Schema Markup", "Graphic Design"],
-    metrics: [
-      { label: "SKUs launched", value: "200+" },
-      { label: "Checkout steps", value: "3" },
-      { label: "Artisan profiles", value: "Linked to every SKU" },
-    ],
-    cover: { from: "#d97706", to: "#7c2d12" },
+    stack: ["WordPress", "WooCommerce", "Graphic Design", "Responsive Design"],
+    cover: { from: "#d97706", to: "#7c2d12", image: "/projects/indiankaarigars.jpg" },
   },
 ];
 

@@ -85,6 +85,13 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
                 Visit live site
               </Button>
             </Reveal>
+          ) : project.homepageShot ? (
+            <Reveal delay={0.25} className="mt-9">
+              <span className="inline-flex items-center gap-2 rounded-full border border-line bg-surface/60 px-4 py-2 text-xs text-muted">
+                <span className="size-1.5 rounded-full bg-faint" aria-hidden />
+                Site no longer live — full homepage archived below
+              </span>
+            </Reveal>
           ) : null}
         </div>
       </section>
@@ -213,6 +220,42 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </div>
         </div>
       </section>
+
+      {/* Archived homepage */}
+      {project.homepageShot ? (
+        <section className="relative pb-20 sm:pb-28">
+          <div className="container-page">
+            <Reveal>
+              <h2 className="font-mono text-[11px] uppercase tracking-[0.22em] text-faint">
+                The homepage, top to bottom
+              </h2>
+            </Reveal>
+            <Reveal className="mt-7">
+              <div className="overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_40px_100px_-50px_var(--glow-a)]">
+                {/* Browser chrome */}
+                <div className="flex items-center gap-2 border-b border-line bg-surface-2 px-5 py-3.5">
+                  <span className="size-2.5 rounded-full bg-[#ff5f57]" aria-hidden />
+                  <span className="size-2.5 rounded-full bg-[#febc2e]" aria-hidden />
+                  <span className="size-2.5 rounded-full bg-[#28c840]" aria-hidden />
+                  <span className="ml-4 truncate font-mono text-[11px] text-faint">
+                    {project.title.split(" — ")[0]} · homepage
+                  </span>
+                </div>
+                {/* Scroll inside the frame; lenis must not hijack it. */}
+                <div className="max-h-[78vh] overflow-y-auto overscroll-contain" data-lenis-prevent>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={project.homepageShot}
+                    alt={`${project.title.split(" — ")[0]} — full homepage`}
+                    loading="lazy"
+                    className="block w-full"
+                  />
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </section>
+      ) : null}
 
       {/* Related */}
       <section className="relative py-16">
