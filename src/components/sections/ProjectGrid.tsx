@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
@@ -8,9 +8,27 @@ import { portfolioLead, projects, projectPlatforms, type Project } from "@/lib/d
 import { TiltCard } from "@/components/ui/TiltCard";
 import { ProjectCover } from "@/components/ui/ProjectCover";
 import { cn } from "@/lib/utils";
+import { graphics, graphicCategories } from "@/lib/data/graphics";
+import { GraphicsGrid } from "@/components/sections/GraphicsGrid";
+
+type Section = "websites" | "graphics";
 
 export function ProjectGrid() {
+  const [section, setSection] = useState<Section>("websites");
   const [filter, setFilter] = useState<string>("All");
+  const [graphicFilter, setGraphicFilter] = useState<string>("All");
+
+  // Deep links: /portfolio?type=graphics opens the Graphics tab.
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("type") === "graphics") setSection("graphics");
+  }, []);
+  const switchSection = (next: Section) => {
+    setSection(next);
+    const url = new URL(window.location.href);
+    if (next === "graphics") url.searchParams.set("type", "graphics");
+    else url.searchParams.delete("type");
+    window.history.replaceState(null, "", url);
+  };
 
   const filtered = useMemo(
     () => {
@@ -29,73 +47,152 @@ export function ProjectGrid() {
     return map;
   }, []);
 
+  const graphicCounts = useMemo(() => {
+    const map: Record<string, number> = { All: graphics.length };
+    for (const g of graphics) map[g.category] = (map[g.category] ?? 0) + 1;
+    return map;
+  }, []);
+
   return (
     <section className="relative pb-24 pt-12 sm:pb-32 sm:pt-16">
       <div className="container-page">
-        {/* Filters */}
+        {/* Main filter: what kind of work */}
         <div
-          className="flex flex-wrap items-center gap-2 border-b border-line pb-6"
+          className="inline-flex rounded-full border border-line bg-surface/70 p-1.5 backdrop-blur"
           role="tablist"
-          aria-label="Filter projects by platform"
+          aria-label="Type of work"
         >
-          {projectPlatforms.map((cat) => {
-            const count = counts[cat] ?? 0;
-            const disabled = count === 0;
-            const selected = filter === cat;
+          {(
+            [
+              { id: "websites", label: "Websites", count: projects.length },
+              { id: "graphics", label: "Graphics", count: graphics.length },
+            ] as const
+          ).map((t) => {
+            const selected = section === t.id;
             return (
               <button
-                key={cat}
+                key={t.id}
                 role="tab"
                 aria-selected={selected}
-                disabled={disabled}
-                onClick={() => setFilter(cat)}
+                onClick={() => switchSection(t.id)}
                 className={cn(
-                  "relative rounded-full px-4 py-2 text-sm transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-30",
-                  selected ? "text-canvas" : "text-muted hover:text-ink",
+                  "relative rounded-full px-6 py-2.5 text-[15px] font-medium transition-colors duration-300 sm:px-8",
+                  selected ? "text-white" : "text-muted hover:text-ink",
                 )}
               >
                 {selected ? (
                   <motion.span
-                    layoutId="project-filter"
-                    className="absolute inset-0 -z-10 rounded-full bg-ink"
+                    layoutId="work-section"
+                    className="absolute inset-0 -z-10 rounded-full bg-[linear-gradient(135deg,var(--color-brand-500),color-mix(in_oklab,var(--color-brand-500)_60%,var(--color-cyan-glow)))] shadow-[0_10px_30px_-12px_var(--color-brand-500)]"
                     transition={{ type: "spring", stiffness: 380, damping: 32 }}
                   />
                 ) : null}
-                {cat}
-                <span className={cn("ml-1.5 font-mono text-[10px]", selected ? "opacity-70" : "text-faint")}>
-                  {count}
+                {t.label}
+                <span className={cn("ml-2 font-mono text-[11px]", selected ? "opacity-80" : "text-faint")}>
+                  {t.count}
                 </span>
               </button>
             );
           })}
         </div>
 
-        {/* Grid */}
-        <motion.ul layout className="mt-10 grid gap-5 md:grid-cols-2">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((project, i) => (
-              <motion.li
-                key={project.slug}
-                layout
-                initial={{ opacity: 0, y: 24, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -12, scale: 0.98 }}
-                transition={{ duration: 0.5, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                className={cn(project.featured && i === 0 && "md:col-span-2")}
-              >
-                <ProjectCard project={project} wide={Boolean(project.featured && i === 0)} />
-              </motion.li>
-            ))}
-          </AnimatePresence>
-        </motion.ul>
+        {/* Sub filter: platform (websites) or medium (graphics) */}
+        <SubFilter
+          key={section}
+          label={section === "websites" ? "Filter websites by platform" : "Filter graphics by type"}
+          options={section === "websites" ? projectPlatforms : graphicCategories}
+          counts={section === "websites" ? counts : graphicCounts}
+          value={section === "websites" ? filter : graphicFilter}
+          onChange={section === "websites" ? setFilter : setGraphicFilter}
+        />
 
-        {filtered.length === 0 ? (
-          <p className="mt-16 text-center text-sm text-muted">
-            No projects in this category yet.
-          </p>
-        ) : null}
+        {section === "websites" ? (
+          <>
+            <motion.ul layout className="mt-10 grid gap-5 md:grid-cols-2">
+              <AnimatePresence mode="popLayout">
+                {filtered.map((project, i) => (
+                  <motion.li
+                    key={project.slug}
+                    layout
+                    initial={{ opacity: 0, y: 24, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                    transition={{ duration: 0.5, delay: i * 0.05, ease: [0.16, 1, 0.3, 1] }}
+                    className={cn(project.featured && i === 0 && "md:col-span-2")}
+                  >
+                    <ProjectCard project={project} wide={Boolean(project.featured && i === 0)} />
+                  </motion.li>
+                ))}
+              </AnimatePresence>
+            </motion.ul>
+
+            {filtered.length === 0 ? (
+              <p className="mt-16 text-center text-sm text-muted">
+                No projects in this category yet.
+              </p>
+            ) : null}
+          </>
+        ) : (
+          <GraphicsGrid filter={graphicFilter} />
+        )}
       </div>
     </section>
+  );
+}
+
+function SubFilter({
+  label,
+  options,
+  counts,
+  value,
+  onChange,
+}: {
+  label: string;
+  options: readonly string[];
+  counts: Record<string, number>;
+  value: string;
+  onChange: (v: string) => void;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+      className="mt-6 flex flex-wrap items-center gap-2 border-b border-line pb-6"
+      role="tablist"
+      aria-label={label}
+    >
+      {options.map((cat) => {
+        const count = counts[cat] ?? 0;
+        const disabled = count === 0;
+        const selected = value === cat;
+        return (
+          <button
+            key={cat}
+            role="tab"
+            aria-selected={selected}
+            disabled={disabled}
+            onClick={() => onChange(cat)}
+            className={cn(
+              "relative rounded-full px-4 py-2 text-sm transition-colors duration-300 disabled:cursor-not-allowed disabled:opacity-30",
+              selected ? "text-canvas" : "text-muted hover:text-ink",
+            )}
+          >
+            {selected ? (
+              <motion.span
+                layoutId="project-filter"
+                className="absolute inset-0 -z-10 rounded-full bg-ink"
+                transition={{ type: "spring", stiffness: 380, damping: 32 }}
+              />
+            ) : null}
+            {cat}
+            <span className={cn("ml-1.5 font-mono text-[10px]", selected ? "opacity-70" : "text-faint")}>
+              {disabled ? "soon" : count}
+            </span>
+          </button>
+        );
+      })}
+    </motion.div>
   );
 }
 
