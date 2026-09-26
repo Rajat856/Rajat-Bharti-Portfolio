@@ -65,7 +65,12 @@ export function Hero() {
             </Reveal>
 
             <h1 className="mt-8 font-display text-[clamp(3.25rem,8.5vw,7rem)] leading-[0.9] tracking-[-0.045em]">
-              <RevealText text="Rajat Bharti" className="hero-name" />
+              {/* Colour lives on each word's own animated span: a gradient
+                  clipped to text on the outer wrapper isn't painted into the
+                  words' composited animation layers (blank on mobile Chrome,
+                  descenders cut on desktop). */}
+              <RevealText text="Rajat" wordClassName="hero-name-solid" />{" "}
+              <RevealText text="Bharti" wordClassName="hero-name-gradient" delay={0.06} />
             </h1>
 
             <p className="mt-5 font-sans text-[clamp(1.05rem,2vw,1.5rem)] font-light leading-[1.25] tracking-[-0.015em] text-muted">

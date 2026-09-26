@@ -538,6 +538,34 @@ export const projects: Project[] = [
     cover: { from: "#0f766e", to: "#134e4a", image: "/projects/joyeux.jpg" },
   },
 
+  {
+    slug: "gc-development",
+    title: "G&C Development — Commercial Construction Site",
+    client: "G&C Development",
+    platform: "WordPress",
+    discipline: "Web Design",
+    year: "2024",
+    role: "Web Developer",
+    url: "https://gcdevelopment.net/",
+    summary:
+      "A WordPress site for a Texas commercial construction firm — general contracting, metal buildings and carpentry, presented around one promise: your partner in construction.",
+    description: [
+      "G&C Development builds commercial spaces, from shopping centres to motels, out of Cypress, Texas. Its services run from general contracting and metal building construction to carpentry, rendering, signage and graphic design.",
+      "Construction buyers are hiring for reliability, so the site leads with it: a full-width hero slider — 'Your partner in construction' — with contact details, phone and address pinned in the top bar so a project manager can call without hunting for them.",
+      "Below the hero, services, a projects gallery (interior remodelling, factory and residential construction), the leadership team, testimonials and a blog give the firm a credible, established presence.",
+    ],
+    deliverables: [
+      "WordPress build with hero slider and persistent contact bar",
+      "Services section across six construction offerings",
+      "Projects gallery by construction type",
+      "Team, testimonials and blog sections",
+      "Responsive layout and contact routing",
+    ],
+    stack: ["WordPress", "PHP", "Elementor", "Responsive Design"],
+    metrics: [{ label: "Services", value: "6" }],
+    cover: { from: "#ea580c", to: "#431407", image: "/projects/gc-development.jpg" },
+  },
+
   /* ------------------------------------------------------------ AI Sites -- */
   {
     slug: "vaatalya",

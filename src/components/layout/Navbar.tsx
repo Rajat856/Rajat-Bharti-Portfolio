@@ -69,7 +69,7 @@ export function Navbar() {
                 height={32}
                 className="size-8 shrink-0 rounded-full object-cover ring-1 ring-line-strong"
               />
-              <span className="hidden text-[15px] font-medium tracking-tight sm:block">
+              <span className="text-[15px] font-medium tracking-tight">
                 {profile.name}
               </span>
             </Link>

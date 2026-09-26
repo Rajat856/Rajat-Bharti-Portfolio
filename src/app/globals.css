@@ -235,6 +235,23 @@
     );
   }
 
+  /* Hero name, applied per word (see Hero.tsx). The gradient word pads its
+     own box so descenders sit inside the painted background. */
+  .hero-name-solid {
+    color: var(--ink);
+  }
+  .hero-name-gradient {
+    background-image: linear-gradient(100deg, var(--ink) 0%, var(--color-brand-500) 70%, var(--color-brand-400) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 0.18em;
+    margin-bottom: -0.18em;
+  }
+  .light .hero-name-gradient {
+    background-image: linear-gradient(100deg, var(--ink) 0%, var(--color-brand-600) 70%, var(--color-brand-700) 100%);
+  }
+
   /* Luminous wordmark for the 3D hero — the type reads as lit by the scene
      behind it. `drop-shadow` (not `text-shadow`) so the glow follows the
      gradient-clipped glyph edges rather than a solid box. */
