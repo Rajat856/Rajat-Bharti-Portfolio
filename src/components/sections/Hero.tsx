@@ -46,7 +46,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden pb-16 pt-28 sm:pt-32"
+      className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden pb-10 pt-28 sm:pt-32"
     >
       <Aurora intensity={0.75} />
 
@@ -144,27 +144,43 @@ export function Hero() {
         </Reveal>
       </div>
 
-      <ScrollCue style={contentStyle} />
+      <ScrollCue />
     </section>
   );
 }
 
-function ScrollCue({ style }: { style?: React.ComponentProps<typeof motion.div>["style"] }) {
+function ScrollCue() {
+  // In normal flow below the toolbelt (it used to be absolutely positioned at
+  // the section's bottom edge and landed on top of the toolbelt rule), and a
+  // real button: clicking scrolls to whatever follows the hero.
+  const onClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const hero = e.currentTarget.closest("section");
+    const next = hero?.nextElementSibling as HTMLElement | null;
+    const top = next ? next.getBoundingClientRect().top + window.scrollY : window.innerHeight;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
   return (
-    <motion.div
-      style={style}
-      className="pointer-events-none absolute inset-x-0 bottom-5 mx-auto hidden w-fit flex-col items-center gap-2.5 lg:flex"
-      aria-hidden
-    >
-      <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-faint">Scroll</span>
-      {/* A travelling highlight inside a static rail — calmer than a bouncing arrow. */}
-      <span className="relative block h-9 w-px overflow-hidden bg-line-strong">
-        <motion.span
-          className="absolute inset-x-0 block h-3 bg-accent"
-          animate={{ y: ["-100%", "400%"] }}
-          transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.3 }}
-        />
-      </span>
-    </motion.div>
+    // Deliberately NOT tied to the hero's scroll parallax: that lifts content
+    // ~110px as you scroll, which slid the cue up onto the toolbelt.
+    <div className="relative mt-8 hidden justify-center lg:flex">
+      <button
+        type="button"
+        onClick={onClick}
+        aria-label="Scroll to the next section"
+        className="group flex flex-col items-center gap-2.5 rounded-full px-4 py-2 transition-opacity hover:opacity-80"
+      >
+        <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-faint transition-colors group-hover:text-ink">
+          Scroll
+        </span>
+        {/* A travelling highlight inside a static rail — calmer than a bouncing arrow. */}
+        <span className="relative block h-9 w-px overflow-hidden bg-line-strong">
+          <motion.span
+            className="absolute inset-x-0 block h-3 bg-accent"
+            animate={{ y: ["-100%", "400%"] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.3 }}
+          />
+        </span>
+      </button>
+    </div>
   );
 }
