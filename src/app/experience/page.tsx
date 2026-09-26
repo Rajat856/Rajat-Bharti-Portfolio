@@ -12,7 +12,7 @@ import { profile, resumeHref } from "@/lib/data/profile";
 export const metadata: Metadata = {
   title: "Experience",
   description:
-    "Rajat Bharti's professional history — Chief of Staff at ProductOS, Senior Web Developer at Virusha Technologies, and earlier roles at AffinityX and Blue Barrows.",
+    "Rajat Bharti's professional history — AI Product Developer at ProductOS, Senior Web Developer at Virusha Technologies, and earlier roles at AffinityX and Blue Barrows.",
   alternates: { canonical: "/experience" },
 };
 

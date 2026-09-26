@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { ReelHero } from "@/components/sections/PageHeroes";
+import { projects } from "@/lib/data/projects";
 import { ProjectGrid } from "@/components/sections/ProjectGrid";
 import { CallToAction } from "@/components/sections/CallToAction";
-import { Button } from "@/components/ui/Button";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -14,20 +14,13 @@ export const metadata: Metadata = {
 export default function PortfolioPage() {
   return (
     <>
-      <PageHeader
-        eyebrow="Portfolio"
-        title="Selected work"
-        description="Replatforms, storefronts, web apps and automation systems — built at Virusha Technologies and beyond. Each case study covers the brief, the approach and what actually shipped."
-      >
-        <div className="flex flex-wrap items-center gap-3">
-          <Button href="/contact" variant="secondary" arrow>
-            Start a project
-          </Button>
-          <Button href="/services" variant="outline">
-            See services
-          </Button>
-        </div>
-      </PageHeader>
+      <ReelHero
+        eyebrow={`Portfolio · ${projects.length} projects`}
+        title="Websites businesses run on — not just launch."
+        description="Storefronts, replatforms, web apps and cinematic AI-built sites across Shopify, Webflow, WordPress and custom code. Every case study covers the brief, the approach and what actually shipped."
+        primary={{ label: "Start a project", href: "/contact" }}
+        secondary={{ label: "See services", href: "/services" }}
+      />
 
       <ProjectGrid />
       <CallToAction />

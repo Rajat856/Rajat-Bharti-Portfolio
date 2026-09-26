@@ -206,7 +206,7 @@ export function HeroPortrait() {
             <p className="mt-1 text-sm font-medium">Shopify · Webflow · WordPress</p>
           </FloatCard>
           <FloatCard className="-left-6 bottom-20 sm:-left-16" delay={0.65}>
-            <p className="text-sm font-medium">Chief of Staff</p>
+            <p className="text-sm font-medium">AI Product Developer</p>
             <p className="text-xs text-accent">ProductOS</p>
           </FloatCard>
           <FloatCard className="-right-2 bottom-6 sm:-right-8" delay={0.8}>
@@ -366,7 +366,7 @@ export function HeroEditorial() {
           <div className="space-y-6">
             <p className="text-base leading-relaxed text-muted sm:text-lg">
               29 sites across Shopify, Webflow and WordPress — plus the AI automation behind them.
-              Senior Web Developer at Virusha, Chief of Staff at ProductOS.
+              Senior Web Developer at Virusha, AI Product Developer at ProductOS.
             </p>
             <Ctas />
           </div>
@@ -776,7 +776,7 @@ export function HeroAvatar3D({
               <p className="mt-1 text-sm font-medium">Shopify · Webflow · WordPress</p>
             </div>
             <div className={`${card} -left-4 bottom-[18%] [transform:translateZ(110px)] sm:-left-14`}>
-              <p className="text-sm font-medium">Chief of Staff</p>
+              <p className="text-sm font-medium">AI Product Developer</p>
               <p className="text-xs text-accent">ProductOS</p>
             </div>
             <div className={`${card} right-2 bottom-[4%] [transform:translateZ(70px)]`}>

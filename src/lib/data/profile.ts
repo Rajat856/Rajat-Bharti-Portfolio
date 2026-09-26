@@ -2,7 +2,7 @@ export const profile = {
   name: "Rajat Bharti",
   firstName: "Rajat",
   role: "Senior Web Developer",
-  headline: "Chief of Staff @ProductOS | 3D Web Design & Automation Systems | AI Product Builder",
+  headline: "AI Product Developer @ProductOS | 3D Web Design & Automation Systems | AI Product Builder",
   tagline: "I build fast, beautiful web products — and the AI automation that runs behind them.",
   location: "Bengaluru, Karnataka, India",
   locationShort: "Bengaluru, IN",

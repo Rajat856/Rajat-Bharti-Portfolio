@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Check } from "lucide-react";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { SpotlightHero } from "@/components/sections/PageHeroes";
 import { CallToAction } from "@/components/sections/CallToAction";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
@@ -42,20 +42,13 @@ export default function ServicesPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
       />
 
-      <PageHeader
+      <SpotlightHero
         eyebrow="Services"
-        title="Eight ways I can help you ship."
-        description="From a single conversion-focused landing page to a full replatform with an automation layer behind it. Fixed scope, milestone billing, no surprise invoices."
-      >
-        <div className="flex flex-wrap items-center gap-3">
-          <Button href="/contact" variant="secondary" arrow>
-            Request a quote
-          </Button>
-          <Button href="/portfolio" variant="outline">
-            See the work
-          </Button>
-        </div>
-      </PageHeader>
+        title="Websites, storefronts & the AI behind them."
+        description="Eight ways I can help you ship — from one conversion-focused landing page to a full replatform with an automation layer behind it. Fixed scope, milestone billing, no surprise invoices."
+        primary={{ label: "Start a project", href: "/contact" }}
+        secondary={{ label: "See the work", href: "/portfolio" }}
+      />
 
       {/* Detailed service list */}
       <section className="relative pb-8 pt-12 sm:pt-16">

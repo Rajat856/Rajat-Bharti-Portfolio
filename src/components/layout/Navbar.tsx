@@ -15,7 +15,11 @@ import { cn } from "@/lib/utils";
 
 export function Navbar() {
   const pathname = usePathname();
-  const scrolled = useScrolled(20);
+  const scrolledPast = useScrolled(20);
+  // Pages whose hero is dark in both themes: keep the frosted bar from the
+  // top, or the dark-on-transparent nav disappears into the hero.
+  const darkHero = pathname === "/services";
+  const scrolled = scrolledPast || darkHero;
   const [open, setOpen] = useState(false);
 
   // Close the overlay on navigation and lock the body while it's open.

@@ -78,7 +78,7 @@ export default function AboutPage() {
                   {[
                     ["Based in", profile.location],
                     ["Timezone", profile.timezone],
-                    ["Current role", "Chief of Staff, ProductOS"],
+                    ["Current role", "AI Product Developer, ProductOS"],
                     ["Also", "Senior Web Developer, Virusha Technologies"],
                     ["Education", "MCA — University of Allahabad"],
                     ["Availability", profile.availability],

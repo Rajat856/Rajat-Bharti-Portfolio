@@ -12,7 +12,7 @@ import { toolbelt } from "@/lib/data/skills";
 
 /** The two roles Rajat currently holds — real proof, surfaced above the fold. */
 const currentRoles = [
-  { role: "Chief of Staff", org: "ProductOS" },
+  { role: "AI Product Developer", org: "ProductOS" },
   { role: "Senior Web Developer", org: "Virusha Technologies" },
 ];
 

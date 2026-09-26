@@ -1,0 +1,197 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/Button";
+import { projects } from "@/lib/data/projects";
+
+/**
+ * Page-level heroes promoted from the /hero-lab experiments:
+ *  - <ReelHero>      (lab option A) — used on /portfolio
+ *  - <SpotlightHero> (lab option F) — used on /services
+ */
+
+const ease = [0.16, 1, 0.3, 1] as const;
+const withCovers = projects.filter((p) => p.cover.image).map((p) => p.cover.image as string);
+
+/* ================================================ Reel (portfolio) ====== */
+
+export function ReelHero({
+  eyebrow,
+  title,
+  description,
+  primary,
+  secondary,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+  primary: { label: string; href: string };
+  secondary: { label: string; href: string };
+}) {
+  const rowA = withCovers.filter((_, i) => i % 2 === 0);
+  const rowB = withCovers.filter((_, i) => i % 2 === 1);
+
+  return (
+    <section className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden pt-32">
+      <div className="container-page relative z-10">
+        <motion.p
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease }}
+          className="font-mono text-[11px] uppercase tracking-[0.22em] text-faint"
+        >
+          {eyebrow}
+        </motion.p>
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease, delay: 0.05 }}
+          className="mt-5 max-w-5xl font-display text-[clamp(2.8rem,7vw,6.2rem)] leading-[0.95] tracking-[-0.04em]"
+        >
+          {title}
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="mt-6 max-w-2xl text-lg leading-relaxed text-muted"
+        >
+          {description}
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="mt-9 flex flex-wrap gap-3"
+        >
+          <Button href={primary.href} variant="secondary" size="lg" arrow>
+            {primary.label}
+          </Button>
+          <Button href={secondary.href} variant="outline" size="lg">
+            {secondary.label}
+          </Button>
+        </motion.div>
+      </div>
+
+      {/* Tilted, drifting wall of real project mockups */}
+      <div className="relative mt-16 h-[44vh] min-h-[300px] [perspective:1400px]" aria-hidden>
+        <div className="absolute inset-x-[-10%] top-0 space-y-5 [transform:rotateX(24deg)_rotateZ(-7deg)] [transform-origin:50%_0%]">
+          {[rowA, rowB].map((row, r) => (
+            <div key={r} className="flex overflow-hidden">
+              <div
+                className="flex w-max shrink-0 gap-5 pr-5 animate-marquee-slow"
+                style={r === 1 ? { animationDirection: "reverse" } : undefined}
+              >
+                {[...row, ...row].map((src, i) => (
+                  <div
+                    key={`${src}-${i}`}
+                    className="aspect-[4/3] w-[300px] shrink-0 overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_30px_60px_-30px_rgba(20,10,60,0.45)] sm:w-[380px]"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={src} alt="" className="size-full object-cover" loading="lazy" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,var(--canvas),transparent_14%,transparent_86%,var(--canvas))]" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(to_top,var(--canvas),transparent)]" />
+      </div>
+    </section>
+  );
+}
+
+/* ========================================== Spotlight (services) ======= */
+
+export function SpotlightHero({
+  eyebrow,
+  title,
+  description,
+  hint = "Move your cursor to see the work",
+  primary,
+  secondary,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+  hint?: string;
+  primary: { label: string; href: string };
+  secondary: { label: string; href: string };
+}) {
+  const ref = useRef<HTMLElement>(null);
+  const tiles = withCovers.slice(0, 12);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty("--sx", `${e.clientX - r.left}px`);
+      el.style.setProperty("--sy", `${e.clientY - r.top}px`);
+    };
+    el.addEventListener("pointermove", onMove);
+    return () => el.removeEventListener("pointermove", onMove);
+  }, []);
+
+  const grid = (
+    <>
+      {tiles.map((src) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img key={src} src={src} alt="" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+      ))}
+    </>
+  );
+
+  return (
+    <section
+      ref={ref}
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#07060c] pb-16 pt-32 [--sx:50%] [--sy:45%]"
+    >
+      {/* Faint work grid, always hinted */}
+      <div className="absolute inset-[-4%] grid grid-cols-3 gap-4 p-4 opacity-[0.13] md:grid-cols-4" aria-hidden>
+        {grid}
+      </div>
+      {/* Same grid, fully lit inside the cursor's spotlight */}
+      <div
+        className="absolute inset-[-4%] grid grid-cols-3 gap-4 p-4 md:grid-cols-4"
+        style={{
+          WebkitMaskImage: "radial-gradient(420px circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
+          maskImage: "radial-gradient(420px circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
+        }}
+        aria-hidden
+      >
+        {grid}
+      </div>
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,6,12,0.6)_20%,rgba(7,6,12,0.25)_55%,#07060c_95%)]" />
+
+      <div className="container-page pointer-events-none relative z-10 text-center">
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">{eyebrow}</p>
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease }}
+          className="mx-auto mt-6 max-w-4xl font-display text-[clamp(2.8rem,7.5vw,6.5rem)] leading-[0.92] tracking-[-0.045em] text-white"
+        >
+          {title}
+        </motion.h1>
+        <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/70">{description}</p>
+        <div className="pointer-events-auto mt-10 flex flex-wrap justify-center gap-3">
+          <Button href={primary.href} variant="secondary" size="lg" arrow>
+            {primary.label}
+          </Button>
+          <a
+            href={secondary.href}
+            className="inline-flex h-13 items-center rounded-full border border-white/30 px-7 text-[15px] font-medium text-white transition-colors hover:bg-white/10"
+          >
+            {secondary.label}
+          </a>
+        </div>
+        <p className="mt-10 hidden font-mono text-[10px] uppercase tracking-[0.25em] text-white/35 md:block">
+          {hint}
+        </p>
+      </div>
+    </section>
+  );
+}

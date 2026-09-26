@@ -20,7 +20,7 @@ export const experience: Experience[] = [
   {
     id: "productos",
     company: "ProductOS",
-    role: "Chief of Staff",
+    role: "AI Product Developer",
     employmentType: "Full-time",
     start: "Feb 2026",
     end: null,
@@ -31,7 +31,7 @@ export const experience: Experience[] = [
     workplace: "Hybrid",
     current: true,
     summary:
-      "The execution layer of ProductOS. Owns design, QA, and cross-functional delivery — making sure nothing ships broken and nothing falls through the cracks.",
+      "Builds AI-native product at ProductOS — from spec and design system through QA to shipped release, with the automation that keeps the release loop fast.",
     highlights: [
       "Own the design system and end-to-end product QA across an AI-native product surface.",
       "Run cross-functional delivery between product, engineering and go-to-market so releases land on schedule.",

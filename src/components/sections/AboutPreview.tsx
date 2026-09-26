@@ -56,7 +56,7 @@ export function AboutPreview() {
               <Reveal direction="left">
                 <Card
                   label="Currently"
-                  title="Chief of Staff"
+                  title="AI Product Developer"
                   subtitle="ProductOS · Bengaluru"
                   body="Owning design, QA and cross-functional delivery for an AI-native product — making sure nothing ships broken and nothing falls through the cracks."
                   href="/experience"
