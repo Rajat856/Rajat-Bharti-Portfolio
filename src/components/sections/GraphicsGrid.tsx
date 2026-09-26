@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Play, X } from "lucide-react";
@@ -10,36 +10,62 @@ import { cn } from "@/lib/utils";
 /**
  * "Graphics" tab on /portfolio: square cards for social posts and motion
  * videos. No case-study pages; a card opens the piece in a lightbox with
- * keyboard (← → Esc) and swipe-free button navigation.
+ * keyboard (← → Esc) and arrow-button navigation. Video cards play a short
+ * muted preview on hover (or while on screen, on touch devices).
  */
 
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export function GraphicsGrid({ filter }: { filter: string }) {
   const items = useMemo(
-    () => (filter === "All" ? graphics : graphics.filter((g) => g.category === filter)),
+    () =>
+      (filter === "All" ? graphics : graphics.filter((g) => g.category === filter))
+        // match on-screen order (videos band first) so ← → in the lightbox follow the grid
+        .slice()
+        .sort((a, b) => Number(a.category !== "Motion Video") - Number(b.category !== "Motion Video")),
     [filter],
   );
   const [open, setOpen] = useState<number | null>(null);
 
+  // Videos are 16:9 and read best two-up; social posts are square, three-up.
+  // "All" shows each medium as its own band so the shapes never mix in a row.
+  const groups = (["Motion Video", "Social Media"] as const)
+    .map((cat) => ({ cat, list: items.filter((g) => g.category === cat) }))
+    .filter((g) => g.list.length > 0);
+
   return (
     <>
-      <motion.ul layout className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        <AnimatePresence mode="popLayout">
-          {items.map((g, i) => (
-            <motion.li
-              key={g.id}
-              layout
-              initial={{ opacity: 0, y: 24, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -12, scale: 0.98 }}
-              transition={{ duration: 0.5, delay: i * 0.05, ease }}
-            >
-              <GraphicCard graphic={g} onOpen={() => setOpen(i)} />
-            </motion.li>
-          ))}
-        </AnimatePresence>
-      </motion.ul>
+      {groups.map(({ cat, list }) => (
+        <div key={cat} className="mt-10">
+          {filter === "All" ? (
+            <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.2em] text-faint">
+              {cat} <span className="ml-1 text-faint/70">{list.length}</span>
+            </p>
+          ) : null}
+          <motion.ul
+            layout
+            className={cn(
+              "grid grid-cols-1 gap-5",
+              cat === "Motion Video" ? "md:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3",
+            )}
+          >
+            <AnimatePresence mode="popLayout">
+              {list.map((g, i) => (
+                <motion.li
+                  key={g.id}
+                  layout
+                  initial={{ opacity: 0, y: 24, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -12, scale: 0.98 }}
+                  transition={{ duration: 0.5, delay: i * 0.05, ease }}
+                >
+                  <GraphicCard graphic={g} onOpen={() => setOpen(items.indexOf(g))} />
+                </motion.li>
+              ))}
+            </AnimatePresence>
+          </motion.ul>
+        </div>
+      ))}
 
       {items.length === 0 ? (
         <p className="mt-16 text-center text-sm text-muted">Nothing in this category yet — coming soon.</p>
@@ -51,15 +77,35 @@ export function GraphicsGrid({ filter }: { filter: string }) {
 }
 
 function GraphicCard({ graphic: g, onOpen }: { graphic: Graphic; onOpen: () => void }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const [hover, setHover] = useState(false);
+  const [inView, setInView] = useState(false);
+  const [touch, setTouch] = useState(false);
+
+  // Touch screens can't hover: play the preview while the card is on screen.
+  useEffect(() => {
+    if (!g.preview || !window.matchMedia("(hover: none)").matches) return;
+    setTouch(true);
+    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.6 });
+    if (ref.current) io.observe(ref.current);
+    return () => io.disconnect();
+  }, [g.preview]);
+  const playing = touch ? inView : hover;
+
   return (
     <button
+      ref={ref}
       type="button"
       onClick={onOpen}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       data-cursor="view"
       className="group block w-full overflow-hidden rounded-4xl border border-line bg-surface/50 text-left transition-colors duration-500 hover:border-line-strong hover:bg-surface"
       aria-label={`Open ${g.title} (${g.client})`}
     >
-      <div className="relative aspect-square overflow-hidden">
+      <div
+        className={cn("relative overflow-hidden", g.format === "video" ? "aspect-video" : "aspect-square")}
+      >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={g.thumb}
@@ -67,11 +113,17 @@ function GraphicCard({ graphic: g, onOpen }: { graphic: Graphic; onOpen: () => v
           loading="lazy"
           className="size-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
         />
+        {g.preview ? <PreviewLoop src={g.preview} playing={playing} /> : null}
         <span className="absolute left-4 top-4 rounded-full bg-black/35 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white backdrop-blur-sm">
           {g.category}
         </span>
         {g.format === "video" ? (
-          <span className="absolute inset-0 grid place-items-center">
+          <span
+            className={cn(
+              "absolute inset-0 grid place-items-center transition-opacity duration-500",
+              playing && "opacity-0",
+            )}
+          >
             <span className="grid size-16 place-items-center rounded-full bg-white/85 text-ink shadow-xl backdrop-blur transition-transform duration-500 group-hover:scale-110">
               <Play className="ml-1 size-6 fill-current" aria-hidden />
             </span>
@@ -93,6 +145,34 @@ function GraphicCard({ graphic: g, onOpen }: { graphic: Graphic; onOpen: () => v
         />
       </div>
     </button>
+  );
+}
+
+function PreviewLoop({ src, playing }: { src: string; playing: boolean }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    if (playing) v.play().catch(() => {});
+    else v.pause();
+  }, [playing]);
+  return (
+    <video
+      ref={ref}
+      // Only fetched once someone actually hovers / scrolls to it.
+      src={playing || ready ? src : undefined}
+      muted
+      loop
+      playsInline
+      preload="none"
+      onPlaying={() => setReady(true)}
+      className={cn(
+        "absolute inset-0 size-full object-cover transition-opacity duration-500",
+        playing && ready ? "opacity-100" : "opacity-0",
+      )}
+      aria-hidden
+    />
   );
 }
 
@@ -178,7 +258,7 @@ function Lightbox({
                     controls
                     autoPlay
                     playsInline
-                    className="max-h-full max-w-full rounded-2xl"
+                    className="aspect-video w-full max-w-[calc((100dvh-15rem)*16/9)] rounded-2xl bg-black"
                   />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element

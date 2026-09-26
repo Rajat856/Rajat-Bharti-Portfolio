@@ -7,8 +7,9 @@
  * To add one:
  *   - images: drop `<id>.jpg` (full, ~1600px) and `<id>-sm.jpg` (~800px
  *     thumbnail) into /public/graphics/;
- *   - videos: drop `<id>.mp4` plus a poster frame `<id>.jpg`, set
- *     `format: "video"`, point `src` at the mp4 and `thumb` at the poster.
+ *   - videos: drop `<id>.mp4` (web encode, +faststart), a poster frame
+ *     `<id>-sm.jpg`, and optionally an ~8s muted `<id>-preview.mp4` that
+ *     plays on the card; set `format: "video"`.
  */
 
 export const graphicCategories = ["All", "Social Media", "Motion Video"] as const;
@@ -24,6 +25,8 @@ export type Graphic = {
   src: string;
   /** Grid thumbnail (for videos: the poster frame). */
   thumb: string;
+  /** Videos only: short muted loop played on the card. */
+  preview?: string;
   year: string;
   description?: string;
   /** Website case study for the same client, if there is one. */
@@ -31,6 +34,43 @@ export type Graphic = {
 };
 
 export const graphics: Graphic[] = [
+  {
+    id: "productos-motion",
+    title: "ProductOS — Idea in. Product out.",
+    client: "ProductOS",
+    category: "Motion Video",
+    format: "video",
+    src: "/graphics/productos-motion.mp4",
+    thumb: "/graphics/productos-motion-sm.jpg",
+    preview: "/graphics/productos-motion-preview.mp4",
+    year: "2026",
+    description: "30s launch film for the AI-native product OS — research, design and code agents taking an idea to a shipped product overnight.",
+  },
+  {
+    id: "virusha-tech-motion",
+    title: "Virusha Tech — Brand Film",
+    client: "Virusha Technologies",
+    category: "Motion Video",
+    format: "video",
+    src: "/graphics/virusha-tech-motion.mp4",
+    thumb: "/graphics/virusha-tech-motion-sm.jpg",
+    preview: "/graphics/virusha-tech-motion-preview.mp4",
+    year: "2026",
+    description: "20s kinetic-type brand film covering the studio's services and industries — designed, built, shipped.",
+    project: "virusha-tech",
+  },
+  {
+    id: "1prompt-teaser",
+    title: "1prompt — Launch Teaser",
+    client: "1prompt",
+    category: "Motion Video",
+    format: "video",
+    src: "/graphics/1prompt-teaser.mp4",
+    thumb: "/graphics/1prompt-teaser-sm.jpg",
+    preview: "/graphics/1prompt-teaser-preview.mp4",
+    year: "2026",
+    description: "30s teaser for an AI app builder — six agents turn one prompt into a working app.",
+  },
   {
     id: "bluebarrows-storage",
     title: "Minimalist Storage Solutions",
