@@ -85,6 +85,37 @@ export const projects: Project[] = [
     cover: { from: "#0ea5e9", to: "#164e63", image: "/projects/eye-instruments-india.jpg" },
   },
 
+  {
+    slug: "kindly-objects",
+    title: "Kindly Objects — Personalised 3D-Printed Keepsakes",
+    client: "Kindly Objects",
+    platform: "Shopify",
+    discipline: "E-Commerce",
+    year: "2026",
+    role: "Shopify Developer",
+    url: "https://kindlyobjects.com",
+    summary:
+      "A Shopify store for made-to-order 3D-printed keepsakes — figurines from customer photos, home and desk objects — built around a photo-to-object workflow with design approval before anything is printed.",
+    description: [
+      "Kindly Objects makes personalised 3D-printed keepsakes and quiet everyday objects: figurines of people, couples, families and pets made from customer photos, alongside planters, vases, bookends, desk organisers and miniature architectural pieces.",
+      "Personalised products don't fit a standard add-to-cart flow. The store is built around a photo-to-object journey instead: the customer uploads photos, reviews a 3D design preview, goes through revision rounds, and production starts only once they approve — then ships in 5–7 business days, made to order in India.",
+      "The brand sells restraint — warm neutral finishes, honest materials, oat-coloured packaging — so the storefront stays deliberately quiet. It is also unusually candid, using honest design-stage visuals in place of photorealistic renders while the first pieces are still in production.",
+    ],
+    deliverables: [
+      "Shopify storefront build and theme customisation",
+      "Photo-upload personalisation flow with 3D design preview",
+      "Approval and revision workflow before production",
+      "Collections: figurines, home décor, workspace, Little Joys, Places",
+      "India-market setup: INR pricing and made-to-order fulfilment",
+    ],
+    stack: ["Shopify", "Liquid", "E-Commerce", "Product Personalisation", "3D Printing"],
+    metrics: [
+      { label: "Price range", value: "₹399 – ₹1,999" },
+      { label: "Made to order in", value: "5–7 days" },
+    ],
+    cover: { from: "#d6c7b0", to: "#6b5b45", image: "/projects/kindly-objects.jpg" },
+  },
+
   /* ------------------------------------------------------------- Webflow -- */
   {
     slug: "shipturtle",
