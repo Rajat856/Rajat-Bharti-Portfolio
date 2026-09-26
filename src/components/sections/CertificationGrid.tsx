@@ -111,8 +111,8 @@ function CertificationCard({ cert }: { cert: Certification }) {
   const accent = categoryAccent[cert.category];
 
   return (
-    <TiltCard intensity={5} className="h-full">
-      <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface/50 p-7 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-line-strong hover:bg-surface">
+    <TiltCard intensity={5} radius="1.5rem" className="h-full">
+      <div className="group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-surface/50 p-7 transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong hover:bg-surface">
         {/* Corner glow keyed to the category */}
         <div
           className="pointer-events-none absolute -right-16 -top-16 size-40 rounded-full opacity-0 blur-3xl transition-opacity duration-700 group-hover:opacity-40"

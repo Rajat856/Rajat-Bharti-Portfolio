@@ -23,7 +23,8 @@ export type Post = {
   category: "Performance" | "Automation" | "Design" | "SEO" | "Career";
   tags: string[];
   featured?: boolean;
-  cover: { from: string; to: string };
+  /** Gradient is the fallback; `image` (in /public/blog) takes over when set. */
+  cover: { from: string; to: string; image?: string };
   body: Block[];
 };
 
@@ -39,7 +40,7 @@ export const posts: Post[] = [
     category: "Performance",
     tags: ["WordPress", "Core Web Vitals", "Performance"],
     featured: true,
-    cover: { from: "#7c5cff", to: "#22d3ee" },
+    cover: { from: "#7c5cff", to: "#22d3ee", image: "/blog/core-web-vitals-wordpress.jpg" },
     body: [
       {
         type: "p",
@@ -116,7 +117,7 @@ export const posts: Post[] = [
     category: "Automation",
     tags: ["n8n", "Make.com", "Zapier", "Reliability"],
     featured: true,
-    cover: { from: "#22d3ee", to: "#4e2fc0" },
+    cover: { from: "#22d3ee", to: "#4e2fc0", image: "/blog/automation-that-does-not-break.jpg" },
     body: [
       {
         type: "p",
@@ -167,7 +168,7 @@ export const posts: Post[] = [
     readingTime: "9 min read",
     category: "SEO",
     tags: ["Webflow", "WordPress", "Migration", "SEO"],
-    cover: { from: "#ff8a5b", to: "#7c5cff" },
+    cover: { from: "#ff8a5b", to: "#7c5cff", image: "/blog/wordpress-to-webflow-migration.jpg" },
     body: [
       {
         type: "p",
@@ -220,7 +221,7 @@ export const posts: Post[] = [
     readingTime: "7 min read",
     category: "Design",
     tags: ["Three.js", "WebGL", "Design", "Performance"],
-    cover: { from: "#8d78f5", to: "#0ea5e9" },
+    cover: { from: "#8d78f5", to: "#0ea5e9", image: "/blog/3d-on-the-web-restraint.jpg" },
     body: [
       {
         type: "p",
@@ -271,7 +272,7 @@ export const posts: Post[] = [
     readingTime: "5 min read",
     category: "Career",
     tags: ["Career", "Design", "Craft"],
-    cover: { from: "#d97706", to: "#4e2fc0" },
+    cover: { from: "#d97706", to: "#4e2fc0", image: "/blog/developer-who-designs.jpg" },
     body: [
       {
         type: "p",

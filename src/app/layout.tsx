@@ -115,7 +115,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${display.variable} ${mono.variable} dark`}
+      className={`${inter.variable} ${display.variable} ${mono.variable} light`}
       suppressHydrationWarning
     >
       <head>

@@ -78,10 +78,10 @@ export function ServiceCard({ service }: { service: Service }) {
   const Icon = icons[service.icon];
 
   return (
-    <TiltCard intensity={5} className="h-full">
+    <TiltCard intensity={5} radius="1.5rem" className="h-full">
       <Link
         href={`/services#${service.id}`}
-        className="group relative flex h-full flex-col rounded-3xl border border-line bg-surface/50 p-7 backdrop-blur-sm transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-line-strong hover:bg-surface"
+        className="group relative flex h-full flex-col rounded-3xl border border-line bg-surface/50 p-7 backdrop-blur-sm transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong hover:bg-surface"
       >
         <div className="flex items-start justify-between">
           <span className="grid size-11 place-items-center rounded-2xl border border-line bg-surface-2 text-accent transition-colors duration-500 group-hover:border-accent/40">

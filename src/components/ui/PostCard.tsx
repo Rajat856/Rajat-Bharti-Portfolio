@@ -21,18 +21,29 @@ export function PostCard({ post, featured = false }: { post: Post; featured?: bo
         )}
       >
         <div
-          className="absolute inset-0 transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06]"
+          className="absolute inset-0"
           style={{ background: `linear-gradient(140deg, ${post.cover.from}, ${post.cover.to})` }}
         />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.28),transparent_55%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.35),transparent_55%)]" />
 
-        {/* Abstract "article" lines so the cover reads as artwork, not a
-            missing image. */}
+        {post.cover.image ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={post.cover.image}
+            alt=""
+            loading="lazy"
+            className="absolute inset-0 size-full object-cover"
+          />
+        ) : null}
+
+        {/* Abstract "article" lines — only for posts without a real image, so
+            the fallback reads as artwork rather than a missing picture. */}
         <div
           className={cn(
             "absolute inset-x-0 bottom-0 space-y-2",
             featured ? "px-8 pb-8" : "px-6 pb-6",
+            post.cover.image && "hidden",
           )}
           aria-hidden
         >

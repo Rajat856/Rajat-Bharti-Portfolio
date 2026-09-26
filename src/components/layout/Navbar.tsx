@@ -57,9 +57,14 @@ export function Navbar() {
               className="group flex shrink-0 items-center gap-2.5 rounded-full pl-1 pr-2"
               aria-label={`${profile.name} — home`}
             >
-              <span className="relative grid size-8 place-items-center overflow-hidden rounded-full bg-[linear-gradient(135deg,var(--color-brand-500),var(--color-cyan-glow))] text-[13px] font-semibold text-white">
-                RB
-              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={profile.avatar}
+                alt=""
+                width={32}
+                height={32}
+                className="size-8 shrink-0 rounded-full object-cover ring-1 ring-line-strong"
+              />
               <span className="hidden text-[15px] font-medium tracking-tight sm:block">
                 {profile.name}
               </span>

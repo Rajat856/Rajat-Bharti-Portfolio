@@ -5,7 +5,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 type Theme = "dark" | "light";
 
 const ThemeContext = createContext<{ theme: Theme; toggle: () => void }>({
-  theme: "dark",
+  theme: "light",
   toggle: () => {},
 });
 
@@ -17,13 +17,13 @@ const STORAGE_KEY = "rb-theme";
  * Inlined in <head> so the correct class is on <html> before first paint.
  * Without this the page flashes the default theme on reload.
  */
-export const themeInitScript = `(function(){try{var s=localStorage.getItem('${STORAGE_KEY}');var t=s||'dark';var e=document.documentElement;e.classList.remove('light','dark');e.classList.add(t);e.style.colorScheme=t;}catch(e){}})();`;
+export const themeInitScript = `(function(){try{var s=localStorage.getItem('${STORAGE_KEY}');var t=s||'light';var e=document.documentElement;e.classList.remove('light','dark');e.classList.add(t);e.style.colorScheme=t;}catch(e){}})();`;
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<Theme>("dark");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
-    const stored = (localStorage.getItem(STORAGE_KEY) as Theme | null) ?? "dark";
+    const stored = (localStorage.getItem(STORAGE_KEY) as Theme | null) ?? "light";
     setTheme(stored);
   }, []);
 

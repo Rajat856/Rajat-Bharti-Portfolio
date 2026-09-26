@@ -103,10 +103,6 @@ export function Footer() {
             <p>
               © {year} {profile.name}. All rights reserved.
             </p>
-            <p className="mt-1">
-              {profile.locationShort} · {profile.timezone} · Built with Next.js, Three.js &amp;
-              Framer Motion.
-            </p>
           </div>
 
           <div className="flex items-center gap-3">

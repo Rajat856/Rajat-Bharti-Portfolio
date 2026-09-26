@@ -274,6 +274,7 @@
     content: "";
     position: absolute;
     inset: -1px;
+    border-radius: inherit;
     z-index: -1;
     opacity: 0;
     transition: opacity 500ms var(--ease-out-expo);

@@ -19,7 +19,7 @@ export function ResumeDocument() {
   const print = () => window.print();
 
   return (
-    <div className="container-page pb-24">
+    <div className="container-page pb-24 pt-12 sm:pt-16 print:pt-0">
       {/* Toolbar — screen only */}
       <div className="mb-10 flex flex-wrap items-center justify-between gap-4 print:hidden">
         <p className="text-sm text-muted">

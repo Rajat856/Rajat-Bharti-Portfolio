@@ -24,7 +24,7 @@ export function ProjectGrid() {
   }, []);
 
   return (
-    <section className="relative pb-24 sm:pb-32">
+    <section className="relative pb-24 pt-12 sm:pb-32 sm:pt-16">
       <div className="container-page">
         {/* Filters */}
         <div
@@ -95,11 +95,11 @@ export function ProjectGrid() {
 
 export function ProjectCard({ project, wide = false }: { project: Project; wide?: boolean }) {
   return (
-    <TiltCard intensity={4} className="h-full">
+    <TiltCard intensity={4} radius="2rem" className="h-full">
       <Link
         href={`/portfolio/${project.slug}`}
         data-cursor="view"
-        className="group flex h-full flex-col overflow-hidden rounded-4xl border border-line bg-surface/50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-line-strong hover:bg-surface"
+        className="group flex h-full flex-col overflow-hidden rounded-4xl border border-line bg-surface/50 transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong hover:bg-surface"
       >
         {/* Generated cover art with floating chips over it */}
         <div className={cn("relative overflow-hidden", wide ? "aspect-[21/9]" : "aspect-[16/10]")}>
@@ -114,10 +114,6 @@ export function ProjectCard({ project, wide = false }: { project: Project; wide?
             </span>
           </div>
 
-          {/* Reveal-on-hover stack strip */}
-          <div className="absolute inset-x-0 bottom-0 z-10 translate-y-full bg-gradient-to-t from-black/85 to-transparent px-5 pb-4 pt-10 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0">
-            <p className="text-[11px] text-white/90">{project.stack.join(" · ")}</p>
-          </div>
         </div>
 
         <div className="flex flex-1 flex-col p-7">

@@ -24,7 +24,7 @@ export function ProjectCover({
     <div className={cn("relative overflow-hidden", className)}>
       {/* Base gradient */}
       <div
-        className="absolute inset-0 transition-transform duration-[1000ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+        className="absolute inset-0"
         style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}
       />
       {/* Light source */}
@@ -41,8 +41,8 @@ export function ProjectCover({
           // of the scene (measured: ~15–70% of the height across all five
           // backdrops). Anchoring the crop at 35% keeps the whole screen in
           // view even in the widest 21:9 frame, where a centred crop cut off
-          // the site's nav. Slow zoom on hover keeps it feeling alive.
-          className="absolute inset-0 size-full object-cover object-[center_35%] transition-transform duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+          // the site's nav. No hover zoom — it cropped the device out of frame.
+          className="absolute inset-0 size-full object-cover object-[center_35%]"
           loading="lazy"
         />
       ) : (

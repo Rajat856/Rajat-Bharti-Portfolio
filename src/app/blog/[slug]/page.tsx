@@ -106,14 +106,23 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         {/* Cover strip */}
         <div className="container-page">
           <Reveal direction="none" duration={0.9}>
-            <div className="relative aspect-[21/7] overflow-hidden rounded-4xl border border-line">
+            <div className="relative aspect-[21/9] overflow-hidden rounded-4xl border border-line sm:aspect-[21/8]">
               <div
                 className="absolute inset-0"
                 style={{
                   background: `linear-gradient(135deg, ${post.cover.from}, ${post.cover.to})`,
                 }}
               />
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.3),transparent_58%)]" />
+              {post.cover.image ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={post.cover.image}
+                  alt=""
+                  className="absolute inset-0 size-full object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(255,255,255,0.3),transparent_58%)]" />
+              )}
             </div>
           </Reveal>
         </div>
@@ -134,9 +143,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </div>
 
             <div className="mt-10 flex items-center gap-4 rounded-3xl border border-line bg-surface/50 p-6">
-              <span className="grid size-12 shrink-0 place-items-center rounded-full bg-[linear-gradient(135deg,var(--color-brand-500),var(--color-cyan-glow))] text-sm font-semibold text-white">
-                RB
-              </span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={profile.avatar}
+                alt={profile.name}
+                width={48}
+                height={48}
+                className="size-12 shrink-0 rounded-full object-cover ring-1 ring-line-strong"
+              />
               <div>
                 <p className="text-sm font-medium">{profile.name}</p>
                 <p className="mt-0.5 text-xs leading-relaxed text-muted">

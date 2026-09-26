@@ -14,11 +14,16 @@ export function TiltCard({
   className,
   intensity = 8,
   glare = true,
+  radius = "1.5rem",
 }: {
   children: React.ReactNode;
   className?: string;
   intensity?: number;
   glare?: boolean;
+  /** Must match the wrapped card's border-radius. The wrapper clips the
+   *  cursor glow; left square, the glow showed as hard corners outside the
+   *  rounded card on hover. */
+  radius?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const fine = usePointerFine();
@@ -54,11 +59,15 @@ export function TiltCard({
       ref={ref}
       onPointerMove={onMove}
       onPointerLeave={onLeave}
-      style={
-        enabled
-          ? { rotateX, rotateY, transformStyle: "preserve-3d", perspective: 1000 }
-          : undefined
-      }
+      style={{
+        borderRadius: radius,
+        // Safari drops border-radius clipping on 3D-transformed elements
+        // unless the layer is masked; this keeps the corners round mid-tilt.
+        WebkitMaskImage: "-webkit-radial-gradient(white, black)",
+        ...(enabled
+          ? { rotateX, rotateY, transformStyle: "preserve-3d" as const, perspective: 1000 }
+          : {}),
+      }}
       className={cn(glare && "sheen", "will-change-transform", className)}
     >
       {children}
