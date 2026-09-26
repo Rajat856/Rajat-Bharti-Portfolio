@@ -150,7 +150,9 @@ export function SpotlightHero({
       className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#07060c] pb-16 pt-32 [--sx:50%] [--sy:45%]"
     >
       {/* Faint work grid, always hinted */}
-      <div className="absolute inset-[-4%] grid grid-cols-3 gap-4 p-4 opacity-[0.09] md:grid-cols-4 md:opacity-[0.13]" aria-hidden>
+      {/* Two large columns on phones (three read as thumbnails), four on desktop.
+          A touch brighter on mobile since there's no spotlight there. */}
+      <div className="absolute inset-[-6%] grid content-center grid-cols-2 gap-3 p-3 opacity-[0.22] md:inset-[-4%] md:grid-cols-4 md:gap-4 md:p-4 md:opacity-[0.13]" aria-hidden>
         {grid}
       </div>
       {/* Same grid, fully lit inside the cursor's spotlight. Desktop only:
@@ -166,7 +168,7 @@ export function SpotlightHero({
       >
         {grid}
       </div>
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,6,12,0.6)_20%,rgba(7,6,12,0.25)_55%,#07060c_95%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,6,12,0.72)_25%,rgba(7,6,12,0.35)_65%,#07060c_100%)] md:bg-[radial-gradient(ellipse_at_center,rgba(7,6,12,0.6)_20%,rgba(7,6,12,0.25)_55%,#07060c_95%)]" />
 
       <div className="container-page pointer-events-none relative z-10 text-center">
         <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">{eyebrow}</p>
