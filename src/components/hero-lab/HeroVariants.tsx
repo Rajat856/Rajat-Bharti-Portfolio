@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -386,6 +386,263 @@ export function HeroEditorial() {
             <ArrowUpRight className="size-4" aria-hidden />
           </span>
         </motion.a>
+      </div>
+    </section>
+  );
+}
+
+/* ================================================= E · Bento grid ======== */
+
+export function HeroBento() {
+  const tile =
+    "overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_20px_50px_-30px_rgba(20,10,60,0.35)]";
+  return (
+    <section className="relative pb-16 pt-36">
+      <Label letter="E" name="Bento grid" />
+      <div className="container-page">
+        <div className="grid auto-rows-[minmax(140px,auto)] gap-4 md:grid-cols-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease }}
+            className={`${tile} flex flex-col justify-between p-8 md:col-span-2 md:row-span-2`}
+          >
+            <span className="inline-flex w-fit items-center gap-2 rounded-full bg-emerald-500/10 px-3 py-1.5 text-xs text-emerald-600">
+              <span className="size-1.5 rounded-full bg-emerald-500" /> Available for select projects
+            </span>
+            <div>
+              <h1 className="mt-10 font-display text-[clamp(2.6rem,5vw,4.5rem)] leading-[0.95] tracking-[-0.04em]">
+                Rajat Bharti
+              </h1>
+              <p className="mt-4 max-w-md text-muted">
+                Senior Web Developer &amp; AI Automation Engineer. Websites businesses run on — and
+                the automation behind them.
+              </p>
+              <div className="mt-8">
+                <Ctas />
+              </div>
+            </div>
+          </motion.div>
+
+          {[
+            { slug: "doodl-space", span: "md:col-span-2" },
+            { slug: "kindly-objects", span: "" },
+            { slug: "robgence-production", span: "" },
+          ].map((t, i) => (
+            <motion.a
+              key={t.slug}
+              href={`/portfolio/${t.slug}`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease, delay: 0.1 + i * 0.08 }}
+              className={`${tile} group relative min-h-[220px] ${t.span}`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={`/projects/${t.slug}.jpg`} alt="" className="absolute inset-0 size-full object-cover" />
+            </motion.a>
+          ))}
+
+          <div className={`${tile} flex flex-col justify-end p-6`}>
+            <p className="font-display text-5xl leading-none">29</p>
+            <p className="mt-2 text-sm text-muted">sites shipped</p>
+          </div>
+          <div className={`${tile} flex flex-col justify-end p-6`}>
+            <p className="font-display text-5xl leading-none">5+</p>
+            <p className="mt-2 text-sm text-muted">years building</p>
+          </div>
+          <div className={`${tile} flex flex-wrap content-end gap-2 p-6 md:col-span-2`}>
+            {["Shopify", "Webflow", "WordPress", "WooCommerce", "Next.js", "n8n", "AI Agents"].map((s) => (
+              <span key={s} className="rounded-full border border-line bg-surface-2 px-3 py-1.5 text-sm">
+                {s}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ======================================== F · Dark spotlight reveal ====== */
+
+const spotlightSlugs = [
+  "doodl-space", "robgence-production", "kindly-objects", "eye-instruments-india",
+  "virusha-tech", "joyeux", "blue-barrows", "meridian-motors", "shipturtle",
+  "studio-atelier", "kazanan-agro", "oryn",
+];
+
+export function HeroSpotlight() {
+  const ref = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const onMove = (e: PointerEvent) => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty("--sx", `${e.clientX - r.left}px`);
+      el.style.setProperty("--sy", `${e.clientY - r.top}px`);
+    };
+    el.addEventListener("pointermove", onMove);
+    return () => el.removeEventListener("pointermove", onMove);
+  }, []);
+
+  return (
+    <section
+      ref={ref}
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#07060c] [--sx:50%] [--sy:45%]"
+    >
+      <Label letter="F" name="Dark spotlight reveal" />
+      {/* Work grid, only visible inside the cursor's spotlight */}
+      {/* Faint base layer so the work is hinted even before the cursor moves */}
+      <div className="absolute inset-[-4%] grid grid-cols-4 gap-4 p-4 opacity-[0.13]" aria-hidden>
+        {spotlightSlugs.map((s) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={s} src={`/projects/${s}.jpg`} alt="" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+        ))}
+      </div>
+      <div
+        className="absolute inset-[-4%] grid grid-cols-4 gap-4 p-4"
+        style={{
+          WebkitMaskImage: "radial-gradient(420px circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
+          maskImage: "radial-gradient(420px circle at var(--sx) var(--sy), black 0%, black 35%, transparent 75%)",
+        }}
+        aria-hidden
+      >
+        {spotlightSlugs.map((s) => (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img key={s} src={`/projects/${s}.jpg`} alt="" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+        ))}
+      </div>
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,6,12,0.55)_20%,rgba(7,6,12,0.2)_55%,#07060c_95%)]" />
+
+      <div className="container-page pointer-events-none relative z-10 text-center">
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/50">
+          Move your cursor to see the work
+        </p>
+        <h1 className="mt-6 font-display text-[clamp(3.4rem,11vw,9.5rem)] leading-[0.88] tracking-[-0.045em] text-white">
+          Rajat Bharti
+        </h1>
+        <p className="mx-auto mt-6 max-w-xl text-lg text-white/65">
+          Senior Web Developer &amp; AI Automation Engineer.
+        </p>
+        <div className="pointer-events-auto mt-10 flex flex-wrap justify-center gap-3">
+          <Button href="/portfolio" variant="secondary" size="lg" arrow>
+            View selected work
+          </Button>
+          <a
+            href="/contact"
+            className="inline-flex h-13 items-center rounded-full border border-white/30 px-7 text-[15px] font-medium text-white transition-colors hover:bg-white/10"
+          >
+            Start a project
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ========================================== G · Fanned card stack ======= */
+
+const fanSlugs = ["virusha-tech", "kindly-objects", "robgence-production", "doodl-space", "joyeux"];
+
+export function HeroFan() {
+  return (
+    <section className="relative flex min-h-[100svh] items-center overflow-hidden pb-16 pt-32">
+      <Label letter="G" name="Fanned project stack" />
+      <div className="container-page grid items-center gap-14 lg:grid-cols-2">
+        <div>
+          <motion.h1
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease }}
+            className="font-display text-[clamp(2.8rem,6.5vw,5.5rem)] leading-[0.95] tracking-[-0.04em]"
+          >
+            Rajat Bharti
+          </motion.h1>
+          <p className="mt-4 text-xl text-accent">Senior Web Developer &amp; AI Automation Engineer</p>
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-muted">
+            Storefronts, marketing sites and web apps across Shopify, Webflow and WordPress — and the
+            AI automation that keeps them fed.
+          </p>
+          <div className="mt-9">
+            <Ctas />
+          </div>
+        </div>
+
+        {/* Hover the stack to fan it open */}
+        <div className="group relative mx-auto h-[380px] w-full max-w-[520px] [perspective:1600px] sm:h-[440px]">
+          {fanSlugs.map((s, i) => {
+            const mid = (fanSlugs.length - 1) / 2;
+            const k = i - mid;
+            return (
+              <motion.div
+                key={s}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease, delay: 0.15 + i * 0.07 }}
+                className="absolute inset-x-[10%] top-[12%] aspect-[4/3]"
+                style={{ zIndex: i }}
+              >
+                <div
+                  className="size-full overflow-hidden rounded-2xl border border-white/70 shadow-[0_40px_80px_-30px_rgba(20,10,60,0.5)] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] [transform:translateX(calc(var(--k)*34px))_translateY(calc(var(--k)*-6px))_rotateZ(calc(var(--k)*5deg))] group-hover:[transform:translateX(calc(var(--k)*84px))_translateY(calc(var(--k)*-2px))_rotateZ(calc(var(--k)*9deg))]"
+                  style={{ ["--k" as string]: k, transformOrigin: "50% 120%" }}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={`/projects/${s}.jpg`} alt="" className="size-full object-cover" />
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ========================================== H · Rotating statement ====== */
+
+const rotatingWords = ["storefronts", "brand sites", "web apps", "AI automations", "landing pages"];
+
+export function HeroRotating() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setI((v) => (v + 1) % rotatingWords.length), 2200);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <section className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden pb-16 pt-32">
+      <Label letter="H" name="Rotating statement" />
+      <div className="container-page">
+        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-faint">
+          Rajat Bharti · Senior Web Developer &amp; AI Automation Engineer
+        </p>
+        <h1 className="mt-8 font-display text-[clamp(3rem,9vw,8rem)] leading-[0.92] tracking-[-0.045em]">
+          I build
+          <br />
+          <span className="relative inline-block h-[1.05em] overflow-hidden align-bottom">
+            <motion.span
+              key={rotatingWords[i]}
+              initial={{ y: "100%" }}
+              animate={{ y: "0%" }}
+              exit={{ y: "-100%" }}
+              transition={{ duration: 0.6, ease }}
+              className="inline-block bg-[linear-gradient(100deg,var(--color-brand-500),var(--color-cyan-glow))] bg-clip-text text-transparent"
+            >
+              {rotatingWords[i]}
+            </motion.span>
+          </span>
+          <br />
+          that businesses run on.
+        </h1>
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-8">
+          <Ctas />
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-3 text-sm text-faint">
+            <span className="font-mono text-[10px] uppercase tracking-[0.2em]">Built for</span>
+            {["Doodl Space", "Robgence", "Shipturtle", "Kindly Objects", "Blue Barrows"].map((c) => (
+              <span key={c} className="font-medium text-muted">{c}</span>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

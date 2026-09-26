@@ -1,5 +1,14 @@
 import type { Metadata } from "next";
-import { HeroEditorial, HeroPortrait, HeroReel, HeroShader } from "@/components/hero-lab/HeroVariants";
+import {
+  HeroBento,
+  HeroEditorial,
+  HeroFan,
+  HeroPortrait,
+  HeroReel,
+  HeroRotating,
+  HeroShader,
+  HeroSpotlight,
+} from "@/components/hero-lab/HeroVariants";
 
 // Private comparison page — kept out of search and the sitemap.
 export const metadata: Metadata = {
@@ -17,6 +26,14 @@ export default function HeroLabPage() {
       <HeroShader />
       <div className="h-px bg-line" />
       <HeroEditorial />
+      <div className="h-px bg-line" />
+      <HeroBento />
+      <div className="h-px bg-line" />
+      <HeroSpotlight />
+      <div className="h-px bg-line" />
+      <HeroFan />
+      <div className="h-px bg-line" />
+      <HeroRotating />
     </>
   );
 }
