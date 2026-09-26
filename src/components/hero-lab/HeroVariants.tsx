@@ -789,3 +789,192 @@ export function HeroAvatar3D({
     </section>
   );
 }
+
+/* ======================= I · Mouse-scrub 3D video (turns with cursor) ==== */
+
+/**
+ * A pre-rendered clip of the 3D avatar turning from one side to the other.
+ * Horizontal mouse movement scrubs it backward/forward, so the character
+ * appears to follow the cursor. Seeks are queued through `seeked` so fast
+ * mouse moves can't flood the decoder.
+ *
+ * Until the clip exists (`/hero/rajat-turn.mp4`), the still avatar is shown.
+ */
+const SCRUB_SENSITIVITY = 0.8;
+
+function useTypewriter(text: string, speed = 38, startDelay = 600) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    let i = 0;
+    let interval: ReturnType<typeof setInterval> | undefined;
+    const start = setTimeout(() => {
+      interval = setInterval(() => {
+        i += 1;
+        setDisplayed(text.slice(0, i));
+        if (i >= text.length) {
+          clearInterval(interval);
+          setDone(true);
+        }
+      }, speed);
+    }, startDelay);
+    return () => {
+      clearTimeout(start);
+      if (interval) clearInterval(interval);
+    };
+  }, [text, speed, startDelay]);
+  return { displayed, done };
+}
+
+export function HeroScrub({ video = "/hero/rajat-turn.mp4" }: { video?: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [hasVideo, setHasVideo] = useState(false);
+  const [pillsIn, setPillsIn] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const { displayed, done } = useTypewriter(
+    "Glad you stopped by. I build websites businesses run on — so, what are we building?",
+  );
+
+  useEffect(() => {
+    const t = setTimeout(() => setPillsIn(true), 400);
+    return () => clearTimeout(t);
+  }, []);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    let prevX: number | null = null;
+    let target = 0;
+    let seeking = false;
+    const seek = () => {
+      if (!v.duration) return;
+      if (Math.abs(v.currentTime - target) < 0.01) return;
+      seeking = true;
+      v.currentTime = target;
+    };
+    const onSeeked = () => {
+      seeking = false;
+      if (Math.abs(v.currentTime - target) > 0.01) seek();
+    };
+    const onMove = (e: MouseEvent) => {
+      if (prevX === null) {
+        prevX = e.clientX;
+        return;
+      }
+      const delta = e.clientX - prevX;
+      prevX = e.clientX;
+      if (!v.duration) return;
+      target = Math.min(v.duration, Math.max(0, target + (delta / window.innerWidth) * SCRUB_SENSITIVITY * v.duration));
+      if (!seeking) seek();
+    };
+    const onReady = () => {
+      setHasVideo(true);
+      target = v.duration / 2; // start facing forward, mid-turn
+      seek();
+    };
+    v.addEventListener("seeked", onSeeked);
+    v.addEventListener("loadedmetadata", onReady);
+    if (v.readyState >= 1) onReady();
+    window.addEventListener("mousemove", onMove);
+    return () => {
+      v.removeEventListener("seeked", onSeeked);
+      v.removeEventListener("loadedmetadata", onReady);
+      window.removeEventListener("mousemove", onMove);
+    };
+  }, []);
+
+  const email = profile.email;
+  const pill =
+    "inline-flex items-center justify-center whitespace-nowrap rounded-full px-4 py-[0.3em] text-[13px] transition-colors duration-200 sm:px-5 sm:text-[15px] mx-[0.2em] mb-[0.4em]";
+
+  return (
+    <section className="relative flex h-screen flex-col justify-end overflow-hidden bg-[#0b0a12] px-5 pb-12 sm:px-8 md:justify-center md:px-10 md:pb-0">
+      <Label letter="I" name="Mouse-scrub 3D (turns with cursor)" />
+
+      {/* Clip, or the still avatar until the clip is added */}
+      <video
+        ref={ref}
+        className={`absolute inset-0 size-full object-cover object-[70%_center] ${hasVideo ? "" : "hidden"}`}
+        src={video}
+        muted
+        playsInline
+        preload="auto"
+        onError={() => setHasVideo(false)}
+      />
+      {hasVideo ? null : (
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_45%,#2a2150,#0b0a12_70%)]">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/images/avatar-3d-character.webp"
+            alt=""
+            className="absolute bottom-0 right-[6%] h-[88%] w-auto object-contain [mask-image:linear-gradient(to_bottom,black_80%,transparent)]"
+          />
+        </div>
+      )}
+      {/* Legibility wash on the text side */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(8,7,14,0.75),rgba(8,7,14,0.2)_55%,transparent)]" />
+
+      <div className="relative z-10 mx-auto w-full max-w-[80rem]">
+        <div className="max-w-xl">
+          <p
+            className="pointer-events-none mb-5 select-none text-white sm:mb-6"
+            style={{ fontSize: "clamp(18px,4vw,26px)", lineHeight: 1.3, filter: "blur(4px)" }}
+          >
+            Hey there, I&apos;m Rajat Bharti,
+            <br />
+            Senior Web Developer &amp; AI Automation Engineer
+          </p>
+
+          <p
+            className="mb-5 text-white sm:mb-6"
+            style={{ fontSize: "clamp(18px,4vw,26px)", lineHeight: 1.35, minHeight: 54 }}
+          >
+            {displayed}
+            {done ? null : (
+              <span className="ml-[2px] inline-block h-[1.1em] w-[2px] animate-[blink_1s_step-end_infinite] bg-white align-middle" />
+            )}
+          </p>
+
+          <div
+            className="flex flex-wrap gap-y-1"
+            style={{
+              opacity: pillsIn ? 1 : 0,
+              transform: pillsIn ? "translateY(0)" : "translateY(8px)",
+              transition: "opacity 0.4s ease, transform 0.4s ease",
+            }}
+          >
+            {[
+              { l: "Start a project", h: "/contact" },
+              { l: "View selected work", h: "/portfolio" },
+              { l: "See what I offer", h: "/services" },
+              { l: "Read my resume", h: "/resume" },
+            ].map((b) => (
+              <a key={b.l} href={b.h} className={`${pill} border border-black/10 bg-white text-black hover:bg-black hover:text-white`}>
+                {b.l}
+              </a>
+            ))}
+            <button
+              type="button"
+              onClick={() => {
+                navigator.clipboard?.writeText(email);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 1600);
+              }}
+              className={`${pill} gap-2 border border-white bg-transparent text-white hover:bg-white hover:text-black sm:gap-3`}
+            >
+              {copied ? "Copied!" : (
+                <>
+                  Email: <span className="underline underline-offset-1">{email}</span>
+                </>
+              )}
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden>
+                <rect x="3.5" y="3.5" width="7" height="7" rx="1" stroke="currentColor" />
+                <rect x="1.5" y="1.5" width="7" height="7" rx="1" stroke="currentColor" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}

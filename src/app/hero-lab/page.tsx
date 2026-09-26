@@ -7,6 +7,7 @@ import {
   HeroPortrait,
   HeroReel,
   HeroRotating,
+  HeroScrub,
   HeroShader,
   HeroSpotlight,
 } from "@/components/hero-lab/HeroVariants";
@@ -39,6 +40,8 @@ export default function HeroLabPage() {
       <HeroFan />
       <div className="h-px bg-line" />
       <HeroRotating />
+      <div className="h-px bg-line" />
+      <HeroScrub />
     </>
   );
 }
