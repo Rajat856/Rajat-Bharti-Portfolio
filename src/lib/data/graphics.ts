@@ -35,6 +35,31 @@ export type Graphic = {
 
 export const graphics: Graphic[] = [
   {
+    id: "productos-one-shot",
+    title: "ProductOS — One Prompt to Shipped App",
+    client: "ProductOS",
+    category: "Motion Video",
+    format: "video",
+    src: "/graphics/productos-one-shot.mp4",
+    thumb: "/graphics/productos-one-shot-sm.jpg",
+    preview: "/graphics/productos-one-shot-preview.mp4",
+    year: "2026",
+    description: "30s one-shot walkthrough — a single prompt for a dog-groomer booking app goes through research, PRD, design and code to a live web + mobile product.",
+  },
+  {
+    id: "kindly-objects-motion",
+    title: "Kindly Objects — Brand Film",
+    client: "Kindly Objects",
+    category: "Motion Video",
+    format: "video",
+    src: "/graphics/kindly-objects-motion.mp4",
+    thumb: "/graphics/kindly-objects-motion-sm.jpg",
+    preview: "/graphics/kindly-objects-motion-preview.mp4",
+    year: "2026",
+    description: "53s brand film — 3D-printed, made-to-order objects, the photo-to-figurine personalisation flow and the launch range. Designed. Printed. Made kinder.",
+    project: "kindly-objects",
+  },
+  {
     id: "productos-motion",
     title: "ProductOS — Idea in. Product out.",
     client: "ProductOS",
