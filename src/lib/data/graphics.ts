@@ -35,6 +35,18 @@ export type Graphic = {
 
 export const graphics: Graphic[] = [
   {
+    id: "eloire-radiance-serum",
+    title: "Éloire — Radiance Serum Ad",
+    client: "Éloire",
+    category: "Motion Video",
+    format: "video",
+    src: "/graphics/eloire-radiance-serum.mp4",
+    thumb: "/graphics/eloire-radiance-serum-sm.jpg",
+    preview: "/graphics/eloire-radiance-serum-preview.mp4",
+    year: "2026",
+    description: "30s cinematic skincare ad — liquid-gold macro shots, ingredient callouts (12% niacinamide, hyaluronic acid) and a hero bottle reveal. Pure radiance, revealed.",
+  },
+  {
     id: "productos-one-shot",
     title: "ProductOS — One Prompt to Shipped App",
     client: "ProductOS",
