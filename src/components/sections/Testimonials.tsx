@@ -33,7 +33,7 @@ function initials(name: string) {
 function Card({ t, i }: { t: Testimonial; i: number }) {
   return (
     <figure className="flex w-[340px] shrink-0 flex-col rounded-3xl border border-line bg-surface p-6 shadow-[0_20px_50px_-35px_rgba(20,10,60,0.35)] sm:w-[400px] sm:p-7">
-      <div className="flex gap-0.5 text-amber-400" aria-label="5 out of 5">
+      <div className="flex gap-0.5 text-amber-400" role="img" aria-label="5 out of 5">
         {Array.from({ length: 5 }).map((_, k) => (
           <Star key={k} className="size-4 fill-current" aria-hidden />
         ))}
