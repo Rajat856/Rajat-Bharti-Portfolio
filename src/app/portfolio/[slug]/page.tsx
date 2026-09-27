@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/Button";
 import { ProjectCard } from "@/components/sections/ProjectGrid";
 import { CallToAction } from "@/components/sections/CallToAction";
 import { absoluteUrl } from "@/lib/utils";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
+import { profile } from "@/lib/data/profile";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -24,17 +26,23 @@ export async function generateMetadata({
   const project = getProject(slug);
   if (!project) return { title: "Project not found" };
 
-  return {
+  const image = project.cover.image ?? project.homepageShot;
+  return pageMetadata({
     title: project.title,
     description: project.summary,
-    alternates: { canonical: `/portfolio/${project.slug}` },
-    openGraph: {
-      title: project.title,
-      description: project.summary,
-      url: absoluteUrl(`/portfolio/${project.slug}`),
-      type: "article",
-    },
-  };
+    path: `/portfolio/${project.slug}`,
+    type: "article",
+    image,
+    imageAlt: `${project.title} — ${project.platform} website by ${profile.name}`,
+    keywords: [
+      project.client,
+      `${project.platform} website`,
+      `${project.platform} developer`,
+      project.discipline,
+      "web design case study",
+      profile.name,
+    ],
+  });
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -44,8 +52,34 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
 
   const related = projects.filter((p) => p.slug !== project.slug).slice(0, 2);
 
+  const image = project.cover.image ?? project.homepageShot;
+  const projectSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: project.title,
+    headline: project.title,
+    description: project.summary,
+    url: absoluteUrl(`/portfolio/${project.slug}`),
+    ...(image ? { image: absoluteUrl(image) } : {}),
+    dateCreated: project.year,
+    genre: `${project.platform} website`,
+    keywords: [project.platform, project.discipline].join(", "),
+    creator: { "@type": "Person", "@id": absoluteUrl("/#person"), name: profile.name },
+    sourceOrganization: { "@type": "Organization", name: project.client },
+    ...(project.url ? { sameAs: project.url } : {}),
+  };
+  const crumbs = breadcrumbSchema([
+    { name: "Home", path: "/" },
+    { name: "Portfolio", path: "/portfolio" },
+    { name: project.title, path: `/portfolio/${project.slug}` },
+  ]);
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([projectSchema, crumbs]) }}
+      />
       {/* Header */}
       <section className="relative overflow-hidden pb-14 pt-36 sm:pt-44">
         <Aurora intensity={0.7} />

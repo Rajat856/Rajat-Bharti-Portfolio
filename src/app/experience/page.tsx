@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Timeline } from "@/components/sections/Timeline";
 import { CallToAction } from "@/components/sections/CallToAction";
@@ -9,12 +10,14 @@ import { Button } from "@/components/ui/Button";
 import { awards, education, experience } from "@/lib/data/experience";
 import { profile, resumeHref } from "@/lib/data/profile";
 
-export const metadata: Metadata = {
-  title: "Experience",
+export const metadata: Metadata = pageMetadata({
+  title: "Experience — 6 Years in Web & AI Product",
   description:
-    "Rajat Bharti's professional history — AI Product Developer at ProductOS, Senior Web Developer at Virusha Technologies, and earlier roles at AffinityX and Blue Barrows.",
-  alternates: { canonical: "/experience" },
-};
+    "Six years, four companies: from WordPress builds at AffinityX to AI product development at ProductOS. Roles, responsibilities and the skills used at each.",
+  path: "/experience",
+  type: "website",
+  keywords: ["web developer experience", "AI product developer", "ProductOS"],
+});
 
 export default function ExperiencePage() {
   const totalRoles = experience.length;

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Clock, Globe, Mail, MapPin } from "lucide-react";
 import { LinkedInIcon } from "@/components/ui/icons";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -6,12 +7,14 @@ import { ContactForm } from "@/components/sections/ContactForm";
 import { Reveal } from "@/components/ui/Reveal";
 import { profile } from "@/lib/data/profile";
 
-export const metadata: Metadata = {
-  title: "Contact",
+export const metadata: Metadata = pageMetadata({
+  title: "Hire Me — Freelance Web Developer, Bengaluru",
   description:
-    "Start a conversation with Rajat Bharti — web development, e-commerce, AI automation and custom web applications. Based in Bengaluru, working worldwide.",
-  alternates: { canonical: "/contact" },
-};
+    "Start a project with Rajat Bharti: websites, Shopify stores, web apps and AI automation. Share your brief and get a reply within one working day.",
+  path: "/contact",
+  type: "website",
+  keywords: ["hire web developer", "freelance web developer Bengaluru", "contact Rajat Bharti"],
+});
 
 const channels = [
   { icon: Mail, label: "Email", value: profile.email, href: `mailto:${profile.email}` },

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import Image from "next/image";
 import { Check } from "lucide-react";
 import { SpotlightHero } from "@/components/sections/PageHeroes";
@@ -11,12 +12,14 @@ import { processSteps, services } from "@/lib/data/services";
 import { absoluteUrl } from "@/lib/utils";
 import { profile } from "@/lib/data/profile";
 
-export const metadata: Metadata = {
-  title: "Services",
+export const metadata: Metadata = pageMetadata({
+  title: "Web Development & AI Automation Services",
   description:
-    "Web design and development, e-commerce builds, AI and workflow automation, custom web applications, technical SEO, brand design and digital marketing support.",
-  alternates: { canonical: "/services" },
-};
+    "Hire Rajat Bharti for website design and development, Shopify and WooCommerce stores, custom web apps, AI and n8n automation, technical SEO and brand design.",
+  path: "/services",
+  type: "website",
+  keywords: ["web development services", "Shopify developer for hire", "Webflow developer", "AI automation services", "n8n automation", "technical SEO services"],
+});
 
 const serviceSchema = {
   "@context": "https://schema.org",

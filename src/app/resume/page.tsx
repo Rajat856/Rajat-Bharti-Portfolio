@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { ResumeDocument } from "@/components/sections/ResumeDocument";
 import { CallToAction } from "@/components/sections/CallToAction";
 
-export const metadata: Metadata = {
-  title: "Resume",
+export const metadata: Metadata = pageMetadata({
+  title: "Resume — Web Developer & AI Product Builder",
   description:
-    "The one-page version — Rajat Bharti's experience, skills, education, certifications and awards. Print-optimised and ready to save as a PDF.",
-  alternates: { canonical: "/resume" },
-};
+    "Rajat Bharti's one-page resume: experience, skills, certifications and selected projects. Print-ready — save it as a PDF straight from the page.",
+  path: "/resume",
+  type: "profile",
+  keywords: ["Rajat Bharti resume", "web developer resume", "CV"],
+});
 
 export default function ResumePage() {
   return (

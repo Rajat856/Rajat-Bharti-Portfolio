@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { CertificationGrid } from "@/components/sections/CertificationGrid";
 import { CallToAction } from "@/components/sections/CallToAction";
 import { Button } from "@/components/ui/Button";
 
-export const metadata: Metadata = {
-  title: "Certifications",
+export const metadata: Metadata = pageMetadata({
+  title: "Certifications & Credentials",
   description:
-    "Professional certifications held by Rajat Bharti — Microsoft, Google, IIT Kanpur, MNNIT, IIIT Allahabad and Arohha, across security, development, design and marketing.",
-  alternates: { canonical: "/certifications" },
-};
+    "Professional certifications held by Rajat Bharti across web development, e-commerce platforms, AI and digital marketing.",
+  path: "/certifications",
+  type: "website",
+  keywords: ["web developer certifications", "Rajat Bharti certifications"],
+});
 
 export default function CertificationsPage() {
   return (

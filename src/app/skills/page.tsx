@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { SkillsSection } from "@/components/sections/SkillsSection";
 import { CallToAction } from "@/components/sections/CallToAction";
@@ -8,12 +9,14 @@ import { Badge } from "@/components/ui/Primitives";
 import { Button } from "@/components/ui/Button";
 import { allSkills, skillGroups } from "@/lib/data/skills";
 
-export const metadata: Metadata = {
-  title: "Skills",
+export const metadata: Metadata = pageMetadata({
+  title: "Skills — Web, CMS, AI & Design Toolkit",
   description:
-    "The full capability map — 62 endorsed skills across web development, CMS and e-commerce platforms, AI automation, design, SEO and delivery.",
-  alternates: { canonical: "/skills" },
-};
+    "The full skill map: front-end and CMS development, Shopify, Webflow and WordPress, AI and workflow automation, design, SEO and delivery — with proficiency levels.",
+  path: "/skills",
+  type: "website",
+  keywords: ["web developer skills", "Shopify Webflow WordPress", "AI automation skills"],
+});
 
 export default function SkillsPage() {
   return (

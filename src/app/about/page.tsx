@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { Award, Compass, GraduationCap, Sparkles } from "lucide-react";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { CallToAction } from "@/components/sections/CallToAction";
@@ -12,12 +13,14 @@ import { awards, education } from "@/lib/data/experience";
 import { allSkills } from "@/lib/data/skills";
 import { processSteps } from "@/lib/data/services";
 
-export const metadata: Metadata = {
-  title: "About",
+export const metadata: Metadata = pageMetadata({
+  title: "About Rajat — Web Developer in Bengaluru",
   description:
-    "Rajat Bharti — Senior Web Developer and AI automation engineer in Bengaluru. Five years across WordPress, Shopify, Webflow, custom web apps and workflow automation.",
-  alternates: { canonical: "/about" },
-};
+    "Meet Rajat Bharti: a Bengaluru-based web developer and AI product builder with 6 years across Shopify, Webflow, WordPress, custom web apps and automation.",
+  path: "/about",
+  type: "profile",
+  keywords: ["about Rajat Bharti", "web developer Bengaluru", "AI product developer"],
+});
 
 const principles = [
   {

@@ -1,14 +1,17 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/lib/seo";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { BlogIndex } from "@/components/sections/BlogIndex";
 import { CallToAction } from "@/components/sections/CallToAction";
 
-export const metadata: Metadata = {
-  title: "Blog",
+export const metadata: Metadata = pageMetadata({
+  title: "Blog — Web Development, SEO & AI Automation",
   description:
-    "Field notes on web performance, automation reliability, CMS migrations, 3D on the web and the craft of building for clients.",
-  alternates: { canonical: "/blog" },
-};
+    "Practical notes on Core Web Vitals, WordPress-to-Webflow migrations, automation that doesn't break, 3D on the web and being the developer who designs.",
+  path: "/blog",
+  type: "website",
+  keywords: ["web development blog", "Core Web Vitals", "WordPress to Webflow", "AI automation blog"],
+});
 
 export default function BlogPage() {
   return (

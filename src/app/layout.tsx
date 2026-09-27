@@ -33,48 +33,76 @@ const mono = JetBrains_Mono({
   display: "swap",
 });
 
+const homeTitle = `${profile.name} — Shopify, Webflow & AI Automation Developer`;
+const homeDescription =
+  "Rajat Bharti is a Bengaluru-based web developer building fast Shopify, Webflow and WordPress sites, custom web apps and AI automation. 34+ websites shipped.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${profile.name} — ${profile.role} & AI Automation Engineer`,
+    default: homeTitle,
     template: `%s · ${profile.name}`,
   },
-  description: profile.summary,
+  description: homeDescription,
+  applicationName: `${profile.name} — Portfolio`,
   keywords: [
     "Rajat Bharti",
-    "Senior Web Developer",
-    "WordPress Developer",
-    "Webflow Developer",
-    "Shopify Developer",
-    "AI Automation",
-    "n8n",
-    "Three.js",
-    "Bengaluru",
-    "Freelance Web Developer India",
+    "web developer Bengaluru",
+    "freelance web developer India",
+    "Shopify developer",
+    "Webflow developer",
+    "WordPress developer",
+    "WooCommerce developer",
+    "e-commerce website developer",
+    "custom web application developer",
+    "AI automation",
+    "n8n automation",
+    "AI product developer",
+    "technical SEO",
+    "Three.js 3D websites",
+    "social media creatives",
+    "motion graphics",
   ],
   authors: [{ name: profile.name, url: siteUrl }],
   creator: profile.name,
+  publisher: profile.name,
+  category: "technology",
+  formatDetection: { telephone: false },
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: siteUrl,
     siteName: `${profile.name} — Portfolio`,
-    title: `${profile.name} — ${profile.role} & AI Automation Engineer`,
-    description: profile.summary,
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: profile.name }],
+    title: homeTitle,
+    description: homeDescription,
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: `${profile.name} — web developer portfolio` }],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${profile.name} — ${profile.role}`,
-    description: profile.tagline,
+    title: homeTitle,
+    description: homeDescription,
     images: ["/opengraph-image"],
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   alternates: { canonical: "/" },
+  // Search Console / Bing ownership: set these env vars in Vercel to the codes
+  // they give you (the "HTML tag" method) — no redeploy of code needed.
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+    other: process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION }
+      : undefined,
+  },
 };
 
 export const viewport: Viewport = {
@@ -90,7 +118,10 @@ export const viewport: Viewport = {
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${siteUrl}/#person`,
   name: profile.name,
+  givenName: "Rajat",
+  familyName: "Bharti",
   url: siteUrl,
   image: `${siteUrl}${profile.avatar}`,
   jobTitle: profile.role,
@@ -103,12 +134,30 @@ const personSchema = {
     "WordPress",
     "Webflow",
     "Shopify",
+    "WooCommerce",
+    "Next.js",
     "AI Automation",
+    "n8n",
     "Technical SEO",
     "Three.js",
     "UI/UX Design",
+    "Graphic Design",
+    "Motion Graphics",
   ],
   worksFor: { "@type": "Organization", name: "ProductOS" },
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  name: `${profile.name} — Portfolio`,
+  alternateName: profile.name,
+  url: siteUrl,
+  inLanguage: "en",
+  description: homeDescription,
+  author: { "@id": `${siteUrl}/#person` },
+  publisher: { "@id": `${siteUrl}/#person` },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -123,6 +172,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
       </head>
       <body className="grain antialiased">

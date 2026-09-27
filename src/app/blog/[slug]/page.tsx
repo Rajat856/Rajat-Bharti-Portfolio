@@ -10,6 +10,7 @@ import { ReadingProgress } from "@/components/ui/ReadingProgress";
 import { CallToAction } from "@/components/sections/CallToAction";
 import { profile } from "@/lib/data/profile";
 import { absoluteUrl } from "@/lib/utils";
+import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
@@ -24,20 +25,18 @@ export async function generateMetadata({
   const post = getPost(slug);
   if (!post) return { title: "Post not found" };
 
-  return {
+  return pageMetadata({
     title: post.title,
     description: post.excerpt,
-    alternates: { canonical: `/blog/${post.slug}` },
-    openGraph: {
-      type: "article",
-      title: post.title,
-      description: post.excerpt,
-      url: absoluteUrl(`/blog/${post.slug}`),
-      publishedTime: post.dateISO,
-      authors: [profile.name],
-      tags: [...post.tags],
+    path: `/blog/${post.slug}`,
+    type: "article",
+    image: post.cover.image,
+    imageAlt: post.title,
+    keywords: [...post.tags],
+    extra: {
+      authors: [{ name: profile.name, url: absoluteUrl("/about") }],
     },
-  };
+  });
 }
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
@@ -53,8 +52,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     headline: post.title,
     description: post.excerpt,
     datePublished: post.dateISO,
-    author: { "@type": "Person", name: profile.name, url: absoluteUrl("/") },
-    publisher: { "@type": "Person", name: profile.name },
+    dateModified: post.dateISO,
+    ...(post.cover.image ? { image: absoluteUrl(post.cover.image) } : {}),
+    author: { "@type": "Person", "@id": absoluteUrl("/#person"), name: profile.name, url: absoluteUrl("/about") },
+    publisher: { "@type": "Person", "@id": absoluteUrl("/#person"), name: profile.name },
     mainEntityOfPage: absoluteUrl(`/blog/${post.slug}`),
     keywords: post.tags.join(", "),
   };
@@ -63,7 +64,16 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify([
+            articleSchema,
+            breadcrumbSchema([
+              { name: "Home", path: "/" },
+              { name: "Blog", path: "/blog" },
+              { name: post.title, path: `/blog/${post.slug}` },
+            ]),
+          ]),
+        }}
       />
       <ReadingProgress />
 
