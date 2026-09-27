@@ -35,6 +35,18 @@ export type Graphic = {
 
 export const graphics: Graphic[] = [
   {
+    id: "urvai-motion",
+    title: "urvai — Less Reading. More Understanding.",
+    client: "urvai",
+    category: "Motion Video",
+    format: "video",
+    src: "/graphics/urvai-motion.mp4",
+    thumb: "/graphics/urvai-motion-sm.jpg",
+    preview: "/graphics/urvai-motion-preview.mp4",
+    year: "2026",
+    description: "40s product film for an AI study tool — drop in a lecture, PDF, audio or YouTube link and get notes, flashcards and debate maps in minutes.",
+  },
+  {
     id: "robgence-motion",
     title: "Robgence — The Data Engine for Physical AI",
     client: "Robgence",
