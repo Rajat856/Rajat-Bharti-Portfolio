@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Play, X } from "lucide-react";
-import { graphics, type Graphic } from "@/lib/data/graphics";
+import { graphics, type Graphic, type GraphicCategory } from "@/lib/data/graphics";
 import { cn } from "@/lib/utils";
 
 /**
@@ -15,21 +15,23 @@ import { cn } from "@/lib/utils";
  */
 
 const ease = [0.16, 1, 0.3, 1] as const;
+const bandOrder: GraphicCategory[] = ["Motion Video", "Reels & Ads", "Posts", "Stories"];
+const isWide = (g: Graphic) => (g.shape ?? (g.category === "Motion Video" ? "wide" : "square")) === "wide";
 
 export function GraphicsGrid({ filter }: { filter: string }) {
   const items = useMemo(
     () =>
       (filter === "All" ? graphics : graphics.filter((g) => g.category === filter))
-        // match on-screen order (videos band first) so ← → in the lightbox follow the grid
+        // match on-screen band order so ← → in the lightbox follow the grid
         .slice()
-        .sort((a, b) => Number(a.category !== "Motion Video") - Number(b.category !== "Motion Video")),
+        .sort((a, b) => bandOrder.indexOf(a.category) - bandOrder.indexOf(b.category)),
     [filter],
   );
   const [open, setOpen] = useState<number | null>(null);
 
-  // Videos are 16:9 and read best two-up; social posts are square, three-up.
-  // "All" shows each medium as its own band so the shapes never mix in a row.
-  const groups = (["Motion Video", "Social Media"] as const)
+  // Motion videos are 16:9 and read best two-up; social pieces are square,
+  // three-up. "All" shows each medium as its own band so shapes never mix.
+  const groups = bandOrder
     .map((cat) => ({ cat, list: items.filter((g) => g.category === cat) }))
     .filter((g) => g.list.length > 0);
 
@@ -104,7 +106,7 @@ function GraphicCard({ graphic: g, onOpen }: { graphic: Graphic; onOpen: () => v
       aria-label={`Open ${g.title} (${g.client})`}
     >
       <div
-        className={cn("relative overflow-hidden", g.format === "video" ? "aspect-video" : "aspect-square")}
+        className={cn("relative overflow-hidden", isWide(g) ? "aspect-video" : "aspect-square")}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -115,7 +117,7 @@ function GraphicCard({ graphic: g, onOpen }: { graphic: Graphic; onOpen: () => v
         />
         {g.preview ? <PreviewLoop src={g.preview} playing={playing} /> : null}
         <span className="absolute left-4 top-4 rounded-full bg-black/35 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white backdrop-blur-sm">
-          {g.category}
+          {g.tag ?? g.category}
         </span>
         {g.format === "video" ? (
           <span
@@ -254,11 +256,11 @@ function Lightbox({
                 {g.format === "video" ? (
                   <video
                     src={g.src}
-                    poster={g.thumb}
+                    poster={g.lightboxShape === "vertical" ? undefined : g.thumb}
                     controls
                     autoPlay
                     playsInline
-                    className="aspect-video w-full max-w-[calc((100dvh-15rem)*16/9)] rounded-2xl bg-black"
+                    className={cn("rounded-2xl bg-black", g.lightboxShape === "vertical" ? "aspect-[9/16] h-full max-h-[calc(100dvh-15rem)] w-auto" : isWide(g) ? "aspect-video w-full max-w-[calc((100dvh-15rem)*16/9)]" : "aspect-square w-full max-w-[calc(100dvh-15rem)]")}
                   />
                 ) : (
                   // eslint-disable-next-line @next/next/no-img-element

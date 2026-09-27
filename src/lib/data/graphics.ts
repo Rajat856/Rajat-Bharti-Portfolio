@@ -12,7 +12,7 @@
  *     plays on the card; set `format: "video"`.
  */
 
-export const graphicCategories = ["All", "Social Media", "Motion Video"] as const;
+export const graphicCategories = ["All", "Posts", "Stories", "Reels & Ads", "Motion Video"] as const;
 export type GraphicCategory = Exclude<(typeof graphicCategories)[number], "All">;
 
 export type Graphic = {
@@ -27,6 +27,12 @@ export type Graphic = {
   thumb: string;
   /** Videos only: short muted loop played on the card. */
   preview?: string;
+  /** Small label on the card, e.g. "Instagram Reel · Ad". Defaults to the category. */
+  tag?: string;
+  /** Card shape. Motion videos default to 16:9; everything else is square. */
+  shape?: "wide" | "square";
+  /** Shape of `src` in the lightbox when it differs from the card (reels are 9:16). */
+  lightboxShape?: "vertical";
   year: string;
   description?: string;
   /** Website case study for the same client, if there is one. */
@@ -194,10 +200,24 @@ export const graphics: Graphic[] = [
     description: "22s flavour-selector animation — Classic, Vanilla and Cherry panels expand in turn, each with a can-crack and fizz in the original sound design. Unofficial concept piece, not affiliated with The Coca-Cola Company.",
   },
   {
+    id: "hushbooks-reel",
+    title: "HushBooks — 50 Must-Read Book Summaries",
+    client: "HushBooks",
+    category: "Reels & Ads",
+    tag: "Instagram Reel · Ad",
+    lightboxShape: "vertical",
+    format: "video",
+    src: "/graphics/hushbooks-reel.mp4",
+    thumb: "/graphics/hushbooks-reel-sm.jpg",
+    preview: "/graphics/hushbooks-reel-preview.mp4",
+    year: "2023",
+    description: "16s sponsored Instagram Reel for an ebook launch — product reveal, the book stack, price with a Buy Now call to action and the brand end card.",
+  },
+  {
     id: "shunya-01",
     title: "Join Our Pottery Workshop",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-01.jpg",
     thumb: "/graphics/shunya-01-sm.jpg",
@@ -208,7 +228,7 @@ export const graphics: Graphic[] = [
     id: "shunya-03",
     title: "Weekend Pottery Workshop — Limited Seats",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-03.jpg",
     thumb: "/graphics/shunya-03-sm.jpg",
@@ -219,7 +239,7 @@ export const graphics: Graphic[] = [
     id: "shunya-02",
     title: "Pottery Making Workshop",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-02.jpg",
     thumb: "/graphics/shunya-02-sm.jpg",
@@ -230,7 +250,7 @@ export const graphics: Graphic[] = [
     id: "shunya-04",
     title: "Weekend Pottery Workshop — Book Now",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-04.jpg",
     thumb: "/graphics/shunya-04-sm.jpg",
@@ -241,7 +261,7 @@ export const graphics: Graphic[] = [
     id: "shunya-05",
     title: "Bond With Your Loved Ones Over Clay",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-05.jpg",
     thumb: "/graphics/shunya-05-sm.jpg",
@@ -252,7 +272,7 @@ export const graphics: Graphic[] = [
     id: "shunya-06",
     title: "Relax & Destress With Pottery Therapy",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-06.jpg",
     thumb: "/graphics/shunya-06-sm.jpg",
@@ -263,7 +283,7 @@ export const graphics: Graphic[] = [
     id: "shunya-08",
     title: "Live in the Moment",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-08.jpg",
     thumb: "/graphics/shunya-08-sm.jpg",
@@ -274,7 +294,7 @@ export const graphics: Graphic[] = [
     id: "shunya-07",
     title: "Weekend Workshop — 21st & 22nd September",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-07.jpg",
     thumb: "/graphics/shunya-07-sm.jpg",
@@ -285,7 +305,7 @@ export const graphics: Graphic[] = [
     id: "shunya-09",
     title: "Center Yourself in Clay",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-09.jpg",
     thumb: "/graphics/shunya-09-sm.jpg",
@@ -296,7 +316,7 @@ export const graphics: Graphic[] = [
     id: "shunya-10",
     title: "Weekend Workshop — 28th & 29th September",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-10.jpg",
     thumb: "/graphics/shunya-10-sm.jpg",
@@ -307,7 +327,7 @@ export const graphics: Graphic[] = [
     id: "shunya-13",
     title: "Weekend Pottery Workshop — Date, Venue & Time",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-13.jpg",
     thumb: "/graphics/shunya-13-sm.jpg",
@@ -318,7 +338,7 @@ export const graphics: Graphic[] = [
     id: "shunya-11",
     title: "Let's Get Ready for the Weekend Workshop",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-11.jpg",
     thumb: "/graphics/shunya-11-sm.jpg",
@@ -329,7 +349,7 @@ export const graphics: Graphic[] = [
     id: "shunya-12",
     title: "Weekend Pottery Workshop — Studio Moments",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/shunya-12.jpg",
     thumb: "/graphics/shunya-12-sm.jpg",
@@ -340,7 +360,7 @@ export const graphics: Graphic[] = [
     id: "shunya-story-1",
     title: "Weekend Workshop — Story (21st & 22nd Sept)",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Stories",
     format: "image",
     src: "/graphics/shunya-story-1.jpg",
     thumb: "/graphics/shunya-story-1-sm.jpg",
@@ -351,7 +371,7 @@ export const graphics: Graphic[] = [
     id: "shunya-story-2",
     title: "Limited Seats — Story (28th & 29th Sept)",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Stories",
     format: "image",
     src: "/graphics/shunya-story-2.jpg",
     thumb: "/graphics/shunya-story-2-sm.jpg",
@@ -362,7 +382,7 @@ export const graphics: Graphic[] = [
     id: "shunya-story-3",
     title: "Book Now — Story Collage",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Stories",
     format: "image",
     src: "/graphics/shunya-story-3.jpg",
     thumb: "/graphics/shunya-story-3-sm.jpg",
@@ -373,7 +393,7 @@ export const graphics: Graphic[] = [
     id: "shunya-story-4",
     title: "Weekend Workshop — Story (Photo Stack)",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Stories",
     format: "image",
     src: "/graphics/shunya-story-4.jpg",
     thumb: "/graphics/shunya-story-4-sm.jpg",
@@ -384,7 +404,7 @@ export const graphics: Graphic[] = [
     id: "shunya-story-5",
     title: "Weekend Workshop — Story (Minimal)",
     client: "Shunya Pottery Studio",
-    category: "Social Media",
+    category: "Stories",
     format: "image",
     src: "/graphics/shunya-story-5.jpg",
     thumb: "/graphics/shunya-story-5-sm.jpg",
@@ -395,7 +415,7 @@ export const graphics: Graphic[] = [
     id: "bluebarrows-storage",
     title: "Minimalist Storage Solutions",
     client: "Blue Barrows",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/bluebarrows-storage.jpg",
     thumb: "/graphics/bluebarrows-storage-sm.jpg",
@@ -407,7 +427,7 @@ export const graphics: Graphic[] = [
     id: "bluebarrows-soap",
     title: "Artisanal Beauty for Daily Rituals",
     client: "Blue Barrows",
-    category: "Social Media",
+    category: "Posts",
     format: "image",
     src: "/graphics/bluebarrows-soap.jpg",
     thumb: "/graphics/bluebarrows-soap-sm.jpg",
