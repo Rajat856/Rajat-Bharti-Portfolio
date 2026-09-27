@@ -97,18 +97,6 @@ export const graphics: Graphic[] = [
     project: "kindly-objects",
   },
   {
-    id: "productos-motion",
-    title: "ProductOS — Idea in. Product out.",
-    client: "ProductOS",
-    category: "Motion Video",
-    format: "video",
-    src: "/graphics/productos-motion.mp4",
-    thumb: "/graphics/productos-motion-sm.jpg",
-    preview: "/graphics/productos-motion-preview.mp4",
-    year: "2026",
-    description: "30s launch film for the AI-native product OS — research, design and code agents taking an idea to a shipped product overnight.",
-  },
-  {
     id: "virusha-tech-motion",
     title: "Virusha Tech — Brand Film",
     client: "Virusha Technologies",
