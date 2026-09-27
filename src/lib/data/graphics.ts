@@ -35,6 +35,19 @@ export type Graphic = {
 
 export const graphics: Graphic[] = [
   {
+    id: "robgence-motion",
+    title: "Robgence — The Data Engine for Physical AI",
+    client: "Robgence",
+    category: "Motion Video",
+    format: "video",
+    src: "/graphics/robgence-motion.mp4",
+    thumb: "/graphics/robgence-motion-sm.jpg",
+    preview: "/graphics/robgence-motion-preview.mp4",
+    year: "2026",
+    description: "30s brand film — egocentric capture, frame-by-frame annotation and 3D motion data (500K+ videos, 4M+ annotations) for robots that work in the real world.",
+    project: "robgence-production",
+  },
+  {
     id: "eloire-radiance-serum",
     title: "Éloire — Radiance Serum Ad",
     client: "Éloire",
