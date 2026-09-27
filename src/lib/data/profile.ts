@@ -18,7 +18,7 @@ export const profile = {
    */
   resumePdf: null as string | null,
   resumeFile: "/resume",
-  avatar: "/images/avatar.jpg",
+  avatar: "/images/avatar-v2.jpg",
   ogImage: "/og.png",
 
   summary:
