@@ -416,3 +416,324 @@ export function HeroTiltTitle({ eyebrow = "Skills", title = "Tools I reach for, 
     </section>
   );
 }
+
+/* ═════════════════════════ Round 2 ═════════════════════════ */
+
+function CountUp({ to, delay = 0 }: { to: number; delay?: number }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const t0 = performance.now() + delay * 1000;
+    const tick = (t: number) => {
+      const p = Math.min(1, Math.max(0, (t - t0) / 1400));
+      setN(Math.round(to * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, delay]);
+  return <>{n}</>;
+}
+
+/* ─────────────────────────── K · Skill Meters (Skills) ─────────────────── */
+export function HeroSkillMeters() {
+  return (
+    <section className="relative flex min-h-[92svh] items-center overflow-hidden pt-28">
+      <div className="container-page grid items-center gap-14 lg:grid-cols-[1fr_1.1fr]">
+        <div>
+          <Eyebrow>Skills</Eyebrow>
+          <motion.h2 {...fadeUp(0.05)} className="mt-5 font-display text-[clamp(2.8rem,6.5vw,5.6rem)] leading-[0.95] tracking-[-0.04em]">
+            Six disciplines, <span className="text-accent">measured honestly.</span>
+          </motion.h2>
+          <motion.p {...fadeUp(0.15)} className="mt-6 max-w-lg text-lg text-muted">
+            From the storefront a customer sees to the automation running behind it.
+          </motion.p>
+        </div>
+        <motion.div {...fadeUp(0.2)} className="rounded-[2rem] border border-line bg-surface p-7 shadow-[0_40px_80px_-40px_rgba(20,10,60,0.45)]">
+          {skillGroups.map((g, i) => {
+            const avg = Math.round(g.skills.reduce((a, s) => a + s.level, 0) / g.skills.length);
+            return (
+              <div key={g.id} className="py-3">
+                <div className="flex justify-between text-sm"><span className="font-medium">{g.title}</span><span className="font-mono text-faint"><CountUp to={avg} delay={0.3 + i * 0.1} />%</span></div>
+                <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface-2">
+                  <motion.div initial={{ width: 0 }} animate={{ width: `${avg}%` }} transition={{ duration: 1.4, ease, delay: 0.3 + i * 0.1 }} className="h-full rounded-full" style={{ background: g.accent }} />
+                </div>
+              </div>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────── L · Periodic Table (Skills) ───────────────── */
+export function HeroPeriodic() {
+  const tiles = skillGroups.flatMap((g) => g.skills.slice(0, 4).map((s) => ({ ...s, accent: g.accent })));
+  const sym = (n: string) => n.replace(/[^A-Za-z0-9 ]/g, "").split(" ").map((w) => w[0]).join("").slice(0, 2) || n.slice(0, 2);
+  return (
+    <section className="relative overflow-hidden pb-16 pt-32">
+      <div className="container-page">
+        <Eyebrow>Skills · the elements</Eyebrow>
+        <motion.h2 {...fadeUp(0.05)} className="mt-5 max-w-3xl font-display text-[clamp(2.6rem,6vw,5.2rem)] leading-[0.95] tracking-[-0.04em]">
+          The periodic table of <span className="italic text-accent">what I build with.</span>
+        </motion.h2>
+        <div className="mt-12 grid grid-cols-4 gap-2 sm:grid-cols-6 lg:grid-cols-8">
+          {tiles.map((t, i) => (
+            <motion.div
+              key={t.name}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease, delay: 0.2 + i * 0.025 }}
+              whileHover={{ y: -6 }}
+              className="aspect-square rounded-xl border p-2.5"
+              style={{ borderColor: `color-mix(in oklab, ${t.accent} 45%, transparent)`, background: `color-mix(in oklab, ${t.accent} 10%, var(--surface))` }}
+            >
+              <p className="font-mono text-[10px] text-faint">{t.level}</p>
+              <p className="mt-1 font-display text-3xl leading-none" style={{ color: t.accent }}>{sym(t.name)}</p>
+              <p className="mt-1.5 truncate text-[10px] text-muted">{t.name}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────── M · Card Deck (Experience) ────────────────── */
+export function HeroCardDeck() {
+  const [spread, setSpread] = useState(false);
+  useEffect(() => { const t = setTimeout(() => setSpread(true), 700); return () => clearTimeout(t); }, []);
+  return (
+    <section className="relative flex min-h-[92svh] items-center overflow-hidden pt-28">
+      <div className="container-page grid items-center gap-14 lg:grid-cols-2">
+        <div>
+          <Eyebrow>Experience</Eyebrow>
+          <motion.h2 {...fadeUp(0.05)} className="mt-5 font-display text-[clamp(2.8rem,6.5vw,5.6rem)] leading-[0.95] tracking-[-0.04em]">
+            Every role, <span className="text-accent">a bigger surface.</span>
+          </motion.h2>
+          <motion.p {...fadeUp(0.15)} className="mt-6 max-w-lg text-lg text-muted">From WordPress micro-sites to owning delivery at an AI-native product company.</motion.p>
+        </div>
+        <div className="relative mx-auto h-[440px] w-full max-w-[460px]" onMouseEnter={() => setSpread(true)}>
+          {experience.map((j, i) => (
+            <motion.div
+              key={j.id}
+              animate={spread ? { y: i * 104, rotate: (i - 1.5) * 1.5, scale: 1 } : { y: i * 10, rotate: 0, scale: 1 - i * 0.03 }}
+              transition={{ duration: 0.9, ease, delay: i * 0.06 }}
+              className={`absolute inset-x-0 top-0 rounded-3xl border p-6 shadow-[0_24px_50px_-30px_rgba(20,10,60,0.5)] ${j.current ? "border-accent/40 bg-[linear-gradient(135deg,color-mix(in_oklab,var(--color-brand-500)_14%,var(--surface)),var(--surface))]" : "border-line bg-surface"}`}
+              style={{ zIndex: 10 - i }}
+            >
+              <div className="flex items-center justify-between">
+                <p className="font-display text-2xl tracking-tight">{j.company}</p>
+                <p className="font-mono text-xs text-faint">{j.start} — {j.end ?? "Now"}</p>
+              </div>
+              <p className="mt-1 text-sm text-muted">{j.role}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────── N · Big Numbers (Experience / About) ──────── */
+export function HeroBigNumbers() {
+  const stats = [
+    { n: years, s: "+", l: "years building for the web" },
+    { n: 4, s: "", l: "companies, one direction" },
+    { n: projects.length, s: "", l: "websites shipped" },
+    { n: graphics.length, s: "", l: "graphics & motion pieces" },
+  ];
+  return (
+    <section className="relative overflow-hidden bg-[#07060c] pb-20 pt-36 text-white">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_20%_0%,rgba(124,92,255,0.35),transparent_70%)]" />
+      <div className="container-page relative">
+        <Eyebrow light>Experience in numbers</Eyebrow>
+        <motion.h2 {...fadeUp(0.05)} className="mt-5 max-w-3xl font-display text-[clamp(2.6rem,6vw,5.2rem)] leading-[0.95] tracking-[-0.04em]">
+          The short version.
+        </motion.h2>
+        <div className="mt-14 grid gap-px overflow-hidden rounded-3xl border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((s, i) => (
+            <div key={s.l} className="bg-[#07060c] p-8">
+              <p className="font-display text-[clamp(4rem,8vw,7rem)] leading-none tracking-tight"><CountUp to={s.n} delay={0.2 + i * 0.15} />{s.s}</p>
+              <p className="mt-3 text-sm text-white/60">{s.l}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────── O · Terminal (Resume / Skills) ────────────── */
+export function HeroTerminal() {
+  const lines = [
+    "$ whoami",
+    `${profile.name} — ${profile.role}`,
+    "$ cat stack.txt",
+    toolbelt.slice(0, 8).join(" · "),
+    "$ ls experience/",
+    experience.map((j) => j.company.replace(/\s/g, "_")).join("  "),
+    "$ ./resume --print",
+    "✓ resume.pdf ready",
+  ];
+  const [shown, setShown] = useState(0);
+  useEffect(() => { if (shown >= lines.length) return; const t = setTimeout(() => setShown((s) => s + 1), shown % 2 ? 350 : 700); return () => clearTimeout(t); }, [shown, lines.length]);
+  return (
+    <section className="relative flex min-h-[92svh] items-center overflow-hidden pt-28">
+      <div className="container-page grid items-center gap-14 lg:grid-cols-2">
+        <div>
+          <Eyebrow>Resume</Eyebrow>
+          <motion.h2 {...fadeUp(0.05)} className="mt-5 font-display text-[clamp(2.8rem,6.5vw,5.6rem)] leading-[0.95] tracking-[-0.04em]">
+            The résumé, <span className="font-mono text-[0.7em] text-accent">compiled.</span>
+          </motion.h2>
+          <motion.div {...fadeUp(0.2)} className="mt-9 flex flex-wrap gap-3">
+            <Button href="#" variant="secondary" size="lg" arrow>Download PDF</Button>
+          </motion.div>
+        </div>
+        <motion.div {...fadeUp(0.15)} className="overflow-hidden rounded-2xl border border-white/10 bg-[#0d0c14] shadow-[0_40px_80px_-30px_rgba(20,10,60,0.6)]">
+          <div className="flex gap-2 border-b border-white/10 px-4 py-3">
+            <span className="size-3 rounded-full bg-[#ff5f57]" /><span className="size-3 rounded-full bg-[#febc2e]" /><span className="size-3 rounded-full bg-[#28c840]" />
+          </div>
+          <div className="min-h-[300px] space-y-2 p-6 font-mono text-sm">
+            {lines.slice(0, shown).map((l, i) => (
+              <p key={i} className={l.startsWith("$") ? "text-[#8b7cf6]" : l.startsWith("✓") ? "text-emerald-400" : "text-white/80"}>{l}</p>
+            ))}
+            <span className="inline-block h-4 w-2 animate-pulse bg-white/70" />
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────── P · Framed Certificate (Certifications) ───── */
+export function HeroCertificate() {
+  const c = certifications[0];
+  return (
+    <section className="relative flex min-h-[92svh] items-center overflow-hidden pt-28">
+      <div className="container-page grid items-center gap-14 lg:grid-cols-2">
+        <div>
+          <Eyebrow>Certifications</Eyebrow>
+          <motion.h2 {...fadeUp(0.05)} className="mt-5 font-display text-[clamp(2.8rem,6.5vw,5.6rem)] leading-[0.95] tracking-[-0.04em]">
+            Credentials, <span className="italic text-accent">framed.</span>
+          </motion.h2>
+          <motion.ul {...fadeUp(0.2)} className="mt-8 flex flex-wrap gap-2">
+            {Array.from(new Set(certifications.map((x) => x.issuer))).map((i) => (
+              <li key={i} className="rounded-full border border-line px-3 py-1.5 text-sm text-muted">{i}</li>
+            ))}
+          </motion.ul>
+        </div>
+        <motion.div
+          initial={{ opacity: 0, rotate: -4, y: 30 }}
+          animate={{ opacity: 1, rotate: -2, y: 0 }}
+          transition={{ duration: 1, ease, delay: 0.15 }}
+          className="mx-auto w-full max-w-[480px] rounded-md bg-[#f6f1e7] p-3 shadow-[0_40px_80px_-30px_rgba(40,25,5,0.5)]"
+        >
+          <div className="border-2 border-[#b89b5e] p-8 text-center text-[#2b2416]">
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#8a7446]">Certificate of completion</p>
+            <p className="mt-5 text-sm italic text-[#6d5c3a]">awarded to</p>
+            <p className="mt-2 font-display text-4xl tracking-tight">{profile.name}</p>
+            <div className="mx-auto my-5 h-px w-40 bg-[#b89b5e]" />
+            <p className="font-display text-2xl">{c.name}</p>
+            <p className="mt-1 text-sm text-[#6d5c3a]">{c.issuer}</p>
+            <div className="mx-auto mt-6 grid size-16 place-items-center rounded-full bg-[radial-gradient(circle,#e3c579,#b8913e)] text-[10px] font-bold uppercase tracking-wider text-[#4a3610] shadow-inner">Seal</div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────── Q · Post Scroller (Blog) ──────────────────── */
+export function HeroPostScroller() {
+  const col = [...posts, ...posts];
+  return (
+    <section className="relative flex min-h-[92svh] items-center overflow-hidden pt-24">
+      <div className="container-page grid items-center gap-14 lg:grid-cols-[1fr_1fr]">
+        <div>
+          <Eyebrow>Blog · notes on the craft</Eyebrow>
+          <motion.h2 {...fadeUp(0.05)} className="mt-5 font-display text-[clamp(2.8rem,6.5vw,5.6rem)] leading-[0.95] tracking-[-0.04em]">
+            Things I learned <span className="text-accent">the hard way.</span>
+          </motion.h2>
+          <motion.p {...fadeUp(0.15)} className="mt-6 max-w-lg text-lg text-muted">Performance, automation, migrations and design — written down so you don&apos;t have to.</motion.p>
+        </div>
+        <div className="relative h-[80svh] overflow-hidden [mask-image:linear-gradient(transparent,black_15%,black_85%,transparent)]">
+          <div className="flex animate-[vscroll_40s_linear_infinite] flex-col gap-4">
+            {col.map((p, i) => (
+              <a key={i} href={`/blog/${p.slug}`} className="flex gap-4 rounded-2xl border border-line bg-surface p-3 transition-colors hover:border-accent">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img {...responsiveImage(p.cover.image)} sizes="160px" alt="" className="aspect-[4/3] w-36 shrink-0 rounded-xl object-cover" />
+                <div className="py-1">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-accent">{p.category}</p>
+                  <p className="mt-1 font-display text-lg leading-snug">{p.title}</p>
+                  <p className="mt-1 text-xs text-faint">{p.readingTime}</p>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────── R · Big Email (Contact) ───────────────────── */
+export function HeroBigEmail() {
+  const [copied, setCopied] = useState(false);
+  const chips = ["New website", "Shopify store", "Webflow build", "Web app", "AI automation", "SEO audit"];
+  const [pick, setPick] = useState<string[]>([]);
+  return (
+    <section className="relative flex min-h-[92svh] flex-col justify-center overflow-hidden pt-28">
+      <div className="pointer-events-none absolute -right-40 -top-40 size-[640px] rounded-full bg-[radial-gradient(circle,color-mix(in_oklab,var(--color-brand-500)_24%,transparent),transparent_70%)] blur-2xl" />
+      <div className="container-page relative">
+        <Eyebrow>Contact · replies within a day</Eyebrow>
+        <motion.h2 {...fadeUp(0.05)} className="mt-5 font-display text-[clamp(2.4rem,5vw,4.4rem)] leading-[1] tracking-[-0.04em]">Have a project in mind? Write to</motion.h2>
+        <motion.button
+          {...fadeUp(0.15)}
+          onClick={() => { navigator.clipboard?.writeText(profile.email); setCopied(true); setTimeout(() => setCopied(false), 1800); }}
+          className="group mt-3 block text-left font-display text-[clamp(1.9rem,6.2vw,5.6rem)] leading-[1.05] tracking-[-0.04em] text-accent underline decoration-2 underline-offset-[0.18em] hover:decoration-4"
+        >
+          {profile.email}
+        </motion.button>
+        <p className="mt-3 text-sm text-faint">{copied ? "✓ Copied to clipboard" : "Click the address to copy it"}</p>
+        <motion.div {...fadeUp(0.25)} className="mt-12">
+          <p className="text-sm text-muted">I&apos;m interested in…</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            {chips.map((c) => {
+              const on = pick.includes(c);
+              return (
+                <button key={c} onClick={() => setPick((p) => (on ? p.filter((x) => x !== c) : [...p, c]))} className={`rounded-full border px-4 py-2 text-sm transition-colors ${on ? "border-accent bg-accent text-white" : "border-line hover:border-line-strong"}`}>
+                  {c}
+                </button>
+              );
+            })}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────── S · Marquee Headline (Contact / any) ──────── */
+export function HeroMarqueeHeadline({ phrase = "Let's work together" }: { phrase?: string }) {
+  return (
+    <section className="relative flex min-h-[85svh] flex-col justify-center overflow-hidden bg-accent pt-28 text-white">
+      {[0, 1].map((r) => (
+        <div key={r} className="flex overflow-hidden py-2">
+          <div className="flex w-max shrink-0 animate-marquee gap-10 pr-10" style={{ animationDirection: r ? "reverse" : "normal" }}>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <span key={i} className={`whitespace-nowrap font-display text-[clamp(4rem,11vw,10rem)] leading-none tracking-[-0.04em] ${r ? "text-transparent [-webkit-text-stroke:1.5px_rgba(255,255,255,0.8)]" : ""}`}>
+                {phrase} ✦
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+      <div className="container-page mt-12 flex flex-wrap items-center justify-between gap-6">
+        <p className="max-w-md text-lg text-white/80">Websites, stores, web apps and the automation behind them. Tell me what you&apos;re building.</p>
+        <a href="/contact" className="inline-flex h-14 items-center rounded-full bg-white px-8 font-medium text-accent transition-transform hover:scale-105">Start a conversation →</a>
+      </div>
+    </section>
+  );
+}

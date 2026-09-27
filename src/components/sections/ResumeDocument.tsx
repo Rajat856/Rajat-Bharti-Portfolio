@@ -23,7 +23,7 @@ export function ResumeDocument() {
       {/* Toolbar — screen only */}
       <div className="mb-10 flex flex-wrap items-center justify-between gap-4 print:hidden">
         <p className="text-sm text-muted">
-          This page is print-optimised — use the button to save a clean PDF copy.
+          {profile.resumePdf ? "Prefer a file? Download the PDF — it opens on any phone or computer." : "This page is print-optimised — use the button to save a clean PDF copy."}
         </p>
         <div className="flex flex-wrap gap-3">
           {profile.resumePdf ? (

@@ -16,7 +16,7 @@ export const profile = {
    * "Download resume" button routes to /resume, which is print-optimised —
    * Cmd/Ctrl+P there produces a clean single-column PDF.
    */
-  resumePdf: null as string | null,
+  resumePdf: "/Rajat-Bharti-Resume.pdf" as string | null,
   resumeFile: "/resume",
   avatar: "/images/avatar-v3.jpg",
   ogImage: "/og.png",

@@ -428,3 +428,5 @@
 
 /* Used by hero-lab orbit/ring animations. */
 @keyframes spin { to { transform: rotate(360deg); } }
+
+@keyframes vscroll { to { transform: translateY(-50%); } }

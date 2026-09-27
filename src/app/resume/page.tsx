@@ -22,7 +22,7 @@ export default function ResumePage() {
           as="p"
           eyebrow="Resume"
           title="The one-page version"
-          description="Everything a hiring manager or client actually needs, on a single page. Print or save it as a PDF straight from this page."
+          description="Everything a hiring manager or client actually needs, in one place. Read it here or download the PDF."
         />
       </div>
 

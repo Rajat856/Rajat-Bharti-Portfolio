@@ -10,6 +10,15 @@ import {
   HeroPortraitArch,
   HeroSkillCloud,
   HeroTiltTitle,
+  HeroSkillMeters,
+  HeroPeriodic,
+  HeroCardDeck,
+  HeroBigNumbers,
+  HeroTerminal,
+  HeroCertificate,
+  HeroPostScroller,
+  HeroBigEmail,
+  HeroMarqueeHeadline,
 } from "@/components/hero-lab/PageHeroVariants";
 
 export const metadata: Metadata = {
@@ -28,6 +37,15 @@ const options = [
   { id: "H", name: "Giant Outline Type", fit: "Any page (word changes per page)", el: <HeroGiantType /> },
   { id: "I", name: "Bento Grid", fit: "About", el: <HeroBento /> },
   { id: "J", name: "3D Tilt Title", fit: "Any page (Skills shown)", el: <HeroTiltTitle /> },
+  { id: "K", name: "Skill Meters", fit: "Skills", el: <HeroSkillMeters /> },
+  { id: "L", name: "Periodic Table", fit: "Skills", el: <HeroPeriodic /> },
+  { id: "M", name: "Card Deck", fit: "Experience", el: <HeroCardDeck /> },
+  { id: "N", name: "Big Numbers", fit: "Experience", el: <HeroBigNumbers /> },
+  { id: "O", name: "Terminal", fit: "Resume", el: <HeroTerminal /> },
+  { id: "P", name: "Framed Certificate", fit: "Certifications", el: <HeroCertificate /> },
+  { id: "Q", name: "Post Scroller", fit: "Blog", el: <HeroPostScroller /> },
+  { id: "R", name: "Big Email", fit: "Contact", el: <HeroBigEmail /> },
+  { id: "S", name: "Marquee Headline", fit: "Contact", el: <HeroMarqueeHeadline /> },
 ];
 
 /** Test page: candidate heroes for the remaining pages. Not indexed. */
@@ -37,7 +55,7 @@ export default function HeroLabPage() {
       <div className="container-page pb-4 pt-32">
         <h1 className="font-display text-5xl tracking-tight">Page hero options</h1>
         <p className="mt-3 max-w-2xl text-muted">
-          Ten designs for About, Skills, Experience, Resume, Certifications, Blog and Contact. Each is
+          Nineteen designs for About, Skills, Experience, Resume, Certifications, Blog and Contact. Each is
           labelled with the page it was designed for — any of them can go on any page.
         </p>
         <nav className="mt-6 flex flex-wrap gap-2">

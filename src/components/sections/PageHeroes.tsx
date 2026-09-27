@@ -277,7 +277,7 @@ export function BentoHero({ headingAs: H = "h1" }: { headingAs?: "h1" | "h2" }) 
             <p className="mt-5 max-w-md text-muted">{profile.tagline}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button href="/contact" variant="secondary" arrow>Work with me</Button>
-              <Button href={resumeHref} variant="outline">View resume</Button>
+              <Button href={resumeHref} download={Boolean(profile.resumePdf)} variant="outline">{profile.resumePdf ? "Download resume" : "View resume"}</Button>
             </div>
           </motion.div>
           <motion.div {...bentoIn(0.1)} className="overflow-hidden rounded-3xl border border-line md:row-span-2">
