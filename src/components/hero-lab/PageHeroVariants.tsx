@@ -383,43 +383,7 @@ export function HeroGiantType({ word = "ABOUT" }: { word?: string }) {
   );
 }
 
-/* ─────────────────────────── I · Bento Grid (About / Home-alt) ─────────── */
-export function HeroBento() {
-  const cover = projects.find((p) => p.cover.image)?.cover.image;
-  return (
-    <section className="relative pb-16 pt-32">
-      <div className="container-page">
-        <Eyebrow>About</Eyebrow>
-        <div className="mt-6 grid auto-rows-[minmax(150px,auto)] gap-4 md:grid-cols-4">
-          <motion.div {...fadeUp(0.05)} className="rounded-3xl border border-line bg-surface p-8 md:col-span-2 md:row-span-2">
-            <h2 className="font-display text-[clamp(2.4rem,4.5vw,4rem)] leading-[0.95] tracking-[-0.04em]">Hi, I&apos;m {profile.firstName}.</h2>
-            <p className="mt-5 max-w-md text-muted">{profile.tagline}</p>
-            <div className="mt-8"><Button href="/contact" variant="secondary" arrow>Work with me</Button></div>
-          </motion.div>
-          <motion.div {...fadeUp(0.1)} className="overflow-hidden rounded-3xl border border-line md:row-span-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={profile.avatar} alt={profile.name} className="size-full min-h-[260px] object-cover" />
-          </motion.div>
-          <motion.div {...fadeUp(0.15)} className="flex flex-col justify-between rounded-3xl bg-accent p-6 text-white">
-            <p className="text-sm opacity-80">Experience</p><p className="font-display text-6xl">{years}+<span className="text-2xl"> yrs</span></p>
-          </motion.div>
-          <motion.div {...fadeUp(0.2)} className="flex flex-col justify-between rounded-3xl border border-line bg-surface p-6">
-            <p className="text-sm text-muted">Based in</p><p className="font-display text-3xl">Bengaluru, India</p>
-          </motion.div>
-          <motion.div {...fadeUp(0.25)} className="relative overflow-hidden rounded-3xl border border-line md:col-span-2">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            {cover ? <img {...responsiveImage(cover)} sizes="50vw" alt="" className="absolute inset-0 size-full object-cover" /> : null}
-            <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.6),transparent)]" />
-            <p className="absolute bottom-5 left-6 font-display text-3xl text-white">{projects.length} sites shipped</p>
-          </motion.div>
-          <motion.div {...fadeUp(0.3)} className="flex flex-wrap content-center gap-2 rounded-3xl border border-line bg-surface p-6 md:col-span-2">
-            {toolbelt.map((t) => <span key={t} className="rounded-full bg-surface-2 px-3 py-1.5 text-sm">{t}</span>)}
-          </motion.div>
-        </div>
-      </div>
-    </section>
-  );
-}
+export { BentoHero as HeroBento } from "@/components/sections/PageHeroes";
 
 /* ─────────────────────────── J · Magnetic Tilt Title (any page) ────────── */
 export function HeroTiltTitle({ eyebrow = "Skills", title = "Tools I reach for, every day." }: { eyebrow?: string; title?: string }) {

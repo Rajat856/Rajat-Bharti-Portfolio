@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/lib/seo";
 import { Award, Compass, GraduationCap, Sparkles } from "lucide-react";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { BentoHero } from "@/components/sections/PageHeroes";
 import { CallToAction } from "@/components/sections/CallToAction";
 import { Stats } from "@/components/sections/Stats";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { Badge, Marquee, Parallax } from "@/components/ui/Primitives";
 import { Button } from "@/components/ui/Button";
-import { profile, resumeHref } from "@/lib/data/profile";
+import { profile } from "@/lib/data/profile";
 import { awards, education } from "@/lib/data/experience";
 import { allSkills } from "@/lib/data/skills";
 import { processSteps } from "@/lib/data/services";
@@ -48,20 +48,7 @@ const principles = [
 export default function AboutPage() {
   return (
     <>
-      <PageHeader
-        eyebrow="About"
-        title="I build the thing, and I make sure it's worth building."
-        description={profile.tagline}
-      >
-        <div className="flex flex-wrap items-center gap-3">
-          <Button href="/contact" variant="secondary" arrow>
-            Work with me
-          </Button>
-          <Button href={resumeHref} download={Boolean(profile.resumePdf)} variant="outline">
-            {profile.resumePdf ? "Download resume" : "View resume"}
-          </Button>
-        </div>
-      </PageHeader>
+      <BentoHero />
 
       {/* Narrative */}
       <section className="relative py-16 sm:py-20">

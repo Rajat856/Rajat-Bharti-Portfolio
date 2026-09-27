@@ -4,12 +4,15 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { projects } from "@/lib/data/projects";
+import { profile, resumeHref } from "@/lib/data/profile";
+import { toolbelt } from "@/lib/data/skills";
 import { responsiveImage } from "@/lib/utils";
 
 /**
  * Page-level heroes (originally prototyped on a since-removed test page):
  *  - <ReelHero>      (lab option A) — used on /portfolio
  *  - <SpotlightHero> (lab option F) — used on /services
+ *  - <BentoHero>     (page-lab option I) — used on /about
  */
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -253,3 +256,52 @@ export function SpotlightHero({
     </section>
   );
 }
+
+const years = new Date().getFullYear() - 2020;
+const bentoIn = (d = 0) => ({
+  initial: { opacity: 0, y: 22 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.8, ease, delay: d },
+});
+
+/* ============================================ Bento (about) ============ */
+export function BentoHero({ headingAs: H = "h1" }: { headingAs?: "h1" | "h2" }) {
+  const cover = projects.find((p) => p.cover.image)?.cover.image;
+  return (
+    <section className="relative pb-16 pt-32">
+      <div className="container-page">
+        <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-faint">About</p>
+        <div className="mt-6 grid auto-rows-[minmax(150px,auto)] gap-4 md:grid-cols-4">
+          <motion.div {...bentoIn(0.05)} className="rounded-3xl border border-line bg-surface p-8 md:col-span-2 md:row-span-2">
+            <H className="font-display text-[clamp(2.4rem,4.5vw,4rem)] leading-[0.95] tracking-[-0.04em]">Hi, I&apos;m {profile.firstName}.</H>
+            <p className="mt-5 max-w-md text-muted">{profile.tagline}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Button href="/contact" variant="secondary" arrow>Work with me</Button>
+              <Button href={resumeHref} variant="outline">View resume</Button>
+            </div>
+          </motion.div>
+          <motion.div {...bentoIn(0.1)} className="overflow-hidden rounded-3xl border border-line md:row-span-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={profile.avatar} alt={profile.name} className="size-full min-h-[260px] object-cover" />
+          </motion.div>
+          <motion.div {...bentoIn(0.15)} className="flex flex-col justify-between rounded-3xl bg-accent p-6 text-white">
+            <p className="text-sm opacity-80">Experience</p><p className="font-display text-6xl">{years}+<span className="text-2xl"> yrs</span></p>
+          </motion.div>
+          <motion.div {...bentoIn(0.2)} className="flex flex-col justify-between rounded-3xl border border-line bg-surface p-6">
+            <p className="text-sm text-muted">Based in</p><p className="font-display text-3xl">Bengaluru, India</p>
+          </motion.div>
+          <motion.div {...bentoIn(0.25)} className="relative overflow-hidden rounded-3xl border border-line md:col-span-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            {cover ? <img {...responsiveImage(cover)} sizes="50vw" alt="" className="absolute inset-0 size-full object-cover" /> : null}
+            <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(0,0,0,0.6),transparent)]" />
+            <p className="absolute bottom-5 left-6 font-display text-3xl text-white">{projects.length} sites shipped</p>
+          </motion.div>
+          <motion.div {...bentoIn(0.3)} className="flex flex-wrap content-center gap-2 rounded-3xl border border-line bg-surface p-6 md:col-span-2">
+            {toolbelt.map((t) => <span key={t} className="rounded-full bg-surface-2 px-3 py-1.5 text-sm">{t}</span>)}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
