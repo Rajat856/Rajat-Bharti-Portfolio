@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight, Play, X } from "lucide-react";
@@ -213,7 +214,13 @@ function Lightbox({
     };
   }, [index, onChange, step]);
 
-  return (
+  // Portal to <body>: any transformed ancestor would otherwise become the
+  // containing block for this fixed overlay and push it off-screen.
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {g ? (
         <motion.div
@@ -304,7 +311,8 @@ function Lightbox({
           </div>
         </motion.div>
       ) : null}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }
 
