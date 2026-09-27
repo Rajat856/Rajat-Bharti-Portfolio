@@ -26,7 +26,7 @@ const videoSchemas = graphics
     description: g.description ?? `${g.category} by ${profile.name} for ${g.client}.`,
     thumbnailUrl: absoluteUrl(g.thumb),
     contentUrl: absoluteUrl(g.src),
-    uploadDate: `${g.year}-01-01`,
+    uploadDate: g.published ?? `${g.year}-01-01`,
     creator: { "@type": "Person", "@id": absoluteUrl("/#person"), name: profile.name },
   }));
 

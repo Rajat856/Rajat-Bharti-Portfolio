@@ -99,7 +99,7 @@
   --line-strong: rgba(10, 10, 20, 0.18);
   --ink: #101014;
   --muted: #56565f;
-  --faint: #86868f;
+  --faint: #6b6b75;
   --accent: #6440e8;
   --glow-a: rgba(124, 92, 255, 0.18);
   --glow-b: rgba(34, 211, 238, 0.14);
@@ -407,4 +407,19 @@
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
+}
+
+/* Page + above-the-fold entrance: CSS-only so content paints before JS loads. */
+@keyframes page-enter {
+  from { opacity: 0.001; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.page-enter { animation: page-enter 0.45s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@keyframes fade-up {
+  from { opacity: 0.001; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+.fade-up { animation: fade-up 0.75s cubic-bezier(0.16, 1, 0.3, 1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .page-enter, .fade-up { animation: none; }
 }

@@ -79,12 +79,13 @@ export function Hero() {
               <RevealText text="AI Automation Engineer" delay={0.3} />
             </p>
 
-            <Reveal delay={0.46} className="mt-6">
+            {/* CSS (not JS) fade: this paragraph is the mobile LCP element. */}
+            <div className="fade-up mt-6" style={{ animationDelay: "0.3s" }}>
               <p className="max-w-lg text-pretty text-base leading-relaxed text-muted sm:text-lg">
                 I build fast, beautiful web products — and the AI automation that runs quietly
                 behind them.
               </p>
-            </Reveal>
+            </div>
 
             <Reveal delay={0.58} className="mt-9">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-4">

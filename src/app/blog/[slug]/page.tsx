@@ -9,7 +9,7 @@ import { PostCard } from "@/components/ui/PostCard";
 import { ReadingProgress } from "@/components/ui/ReadingProgress";
 import { CallToAction } from "@/components/sections/CallToAction";
 import { profile } from "@/lib/data/profile";
-import { absoluteUrl } from "@/lib/utils";
+import { absoluteUrl, responsiveImage } from "@/lib/utils";
 import { breadcrumbSchema, pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -26,7 +26,7 @@ export async function generateMetadata({
   if (!post) return { title: "Post not found" };
 
   return pageMetadata({
-    title: post.title,
+    title: post.seoTitle ?? post.title,
     description: post.excerpt,
     path: `/blog/${post.slug}`,
     type: "article",
@@ -126,8 +126,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               {post.cover.image ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={post.cover.image}
-                  alt=""
+                  {...responsiveImage(post.cover.image)}
+                  sizes="(min-width: 1280px) 1200px, 100vw"
+                  alt={post.title}
+                  fetchPriority="high"
                   className="absolute inset-0 size-full object-cover"
                 />
               ) : (

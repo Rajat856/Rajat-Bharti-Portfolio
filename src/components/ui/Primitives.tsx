@@ -106,7 +106,11 @@ export function Marquee({
         {doubled.map((item, i) => (
           // Vertical padding (in the item's own em) keeps descenders of large
           // display text inside the overflow-hidden track.
-          <span key={`${item}-${i}`} className={cn("flex items-center gap-8 py-[0.12em]", itemClassName)}>
+          <span
+            key={`${item}-${i}`}
+            className={cn("flex items-center gap-8 py-[0.12em]", itemClassName)}
+            aria-hidden={i >= items.length || undefined}
+          >
             <span className="whitespace-nowrap">{item}</span>
             <span className="text-faint" aria-hidden>
               {separator}

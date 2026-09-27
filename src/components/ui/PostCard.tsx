@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import type { Post } from "@/lib/data/posts";
-import { cn } from "@/lib/utils";
+import { cn, responsiveImage } from "@/lib/utils";
 
 export function PostCard({ post, featured = false }: { post: Post; featured?: boolean }) {
   return (
@@ -30,9 +30,11 @@ export function PostCard({ post, featured = false }: { post: Post; featured?: bo
         {post.cover.image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={post.cover.image}
+            {...responsiveImage(post.cover.image)}
+            sizes="(min-width: 1024px) 33vw, 100vw"
             alt=""
             loading="lazy"
+            decoding="async"
             className="absolute inset-0 size-full object-cover"
           />
         ) : null}

@@ -16,6 +16,8 @@ export type Block =
 export type Post = {
   slug: string;
   title: string;
+  /** Shorter title for search results / share cards when `title` runs past ~45 chars. */
+  seoTitle?: string;
   excerpt: string;
   date: string;
   dateISO: string;
@@ -32,6 +34,7 @@ export const posts: Post[] = [
   {
     slug: "core-web-vitals-wordpress",
     title: "Core Web Vitals on WordPress: what actually moves the number",
+    seoTitle: "WordPress Core Web Vitals: What Actually Works",
     excerpt:
       "Most WordPress speed advice is a list of plugins. Here's the shorter list of things that genuinely shift LCP, CLS and INP — in the order I do them on client sites.",
     date: "12 June 2026",
@@ -161,6 +164,7 @@ export const posts: Post[] = [
   {
     slug: "wordpress-to-webflow-migration",
     title: "Migrating WordPress to Webflow without losing your rankings",
+    seoTitle: "Move WordPress to Webflow Without Losing SEO",
     excerpt:
       "Replatforming is where SEO goes to die. A field-tested checklist for moving a site to Webflow and keeping every position you earned.",
     date: "3 March 2026",

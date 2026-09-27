@@ -4,9 +4,10 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/Button";
 import { projects } from "@/lib/data/projects";
+import { responsiveImage } from "@/lib/utils";
 
 /**
- * Page-level heroes promoted from the /hero-lab experiments:
+ * Page-level heroes (originally prototyped on a since-removed test page):
  *  - <ReelHero>      (lab option A) — used on /portfolio
  *  - <SpotlightHero> (lab option F) — used on /services
  */
@@ -89,7 +90,16 @@ export function ReelHero({
                     className="aspect-[4/3] w-[300px] shrink-0 overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_30px_60px_-30px_rgba(20,10,60,0.45)] sm:w-[380px]"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={src} alt="" className="size-full object-cover" loading="lazy" />
+                    <img
+                      {...responsiveImage(src)}
+                      sizes="380px"
+                      alt=""
+                      className="size-full object-cover"
+                      // First tiles are on screen at load (and are the LCP image).
+                      loading={i < 4 ? "eager" : "lazy"}
+                      fetchPriority={r === 0 && i < 2 ? "high" : "auto"}
+                      decoding="async"
+                    />
                   </div>
                 ))}
               </div>
@@ -181,7 +191,7 @@ export function SpotlightHero({
     <>
       {tiles.map((src) => (
         // eslint-disable-next-line @next/next/no-img-element
-        <img key={src} src={src} alt="" className="aspect-[4/3] w-full rounded-2xl object-cover" />
+        <img key={src} {...responsiveImage(src)} sizes="(min-width: 768px) 25vw, 50vw" alt="" className="aspect-[4/3] w-full rounded-2xl object-cover" decoding="async" />
       ))}
     </>
   );

@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils";
+import { cn, responsiveImage } from "@/lib/utils";
 import type { Project } from "@/lib/data/projects";
 
 /**
@@ -11,11 +11,16 @@ export function ProjectCover({
   project,
   className,
   detail = "full",
+  priority = false,
+  sizes = "(min-width: 768px) 50vw, 100vw",
 }: {
   project: Project;
   className?: string;
   /** "full" for large cards, "mini" for the hover preview and small tiles. */
   detail?: "full" | "mini";
+  /** Above-the-fold cover (the page's LCP image): load eagerly, high priority. */
+  priority?: boolean;
+  sizes?: string;
 }) {
   const { from, to, image } = project.cover;
   const label = project.title.split(" — ")[0];
@@ -35,7 +40,8 @@ export function ProjectCover({
       {image ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          src={image}
+          {...responsiveImage(image)}
+          sizes={sizes}
           alt={`${label} — project screenshot`}
           // Covers are 4:3 device mockups whose screen sits in the upper-middle
           // of the scene (measured: ~15–70% of the height across all five
@@ -43,7 +49,9 @@ export function ProjectCover({
           // view even in the widest 21:9 frame, where a centred crop cut off
           // the site's nav. No hover zoom — it cropped the device out of frame.
           className="absolute inset-0 size-full object-cover object-[center_35%]"
-          loading="lazy"
+          loading={priority ? "eager" : "lazy"}
+          fetchPriority={priority ? "high" : "auto"}
+          decoding="async"
         />
       ) : (
         <BrowserMock label={label} detail={detail} />

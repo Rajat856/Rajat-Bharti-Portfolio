@@ -137,8 +137,8 @@ export function RevealText({
       whileInView="show"
       viewport={{ once, amount: 0.4 }}
       variants={{ hidden: {}, show: { transition: { staggerChildren: 0.055, delayChildren: delay } } }}
-      aria-label={text}
     >
+      <span className="sr-only">{text}</span>
       {words.map((word, i) => (
         // Padding extends the clip box past the tight display line-height so
         // descenders (g, j, p, y) aren't cut; the negative margin cancels the

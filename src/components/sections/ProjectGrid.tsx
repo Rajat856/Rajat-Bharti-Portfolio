@@ -106,6 +106,7 @@ export function ProjectGrid() {
           onChange={section === "websites" ? setFilter : setGraphicFilter}
         />
 
+        <h2 className="sr-only">{section === "websites" ? "Websites" : "Graphics"}</h2>
         {section === "websites" ? (
           <>
             <motion.ul layout className="mt-10 grid gap-5 md:grid-cols-2">
@@ -206,7 +207,12 @@ export function ProjectCard({ project, wide = false }: { project: Project; wide?
       >
         {/* Generated cover art with floating chips over it */}
         <div className={cn("relative overflow-hidden", wide ? "aspect-[21/9]" : "aspect-[16/10]")}>
-          <ProjectCover project={project} className="absolute inset-0" />
+          <ProjectCover
+            project={project}
+            className="absolute inset-0"
+            priority={wide}
+            sizes={wide ? "(min-width: 1280px) 1200px, 100vw" : "(min-width: 768px) 50vw, 100vw"}
+          />
 
           <div className="absolute inset-x-4 top-4 z-10 flex items-center justify-between">
             <span className="rounded-full bg-black/35 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-white backdrop-blur-sm">

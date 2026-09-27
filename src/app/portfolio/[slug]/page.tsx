@@ -135,7 +135,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         <div className="container-page">
           <Reveal direction="none" duration={1}>
             <div className="group relative aspect-[21/9] overflow-hidden rounded-4xl border border-line">
-              <ProjectCover project={project} className="absolute inset-0" />
+              <ProjectCover project={project} className="absolute inset-0" priority sizes="(min-width: 1280px) 1200px, 100vw" />
               {/* The title overlay only suits the generated gradient art. Over a
                   real mockup photo it lands on bright backgrounds and washes
                   out — and the page H1 already names the project. */}
