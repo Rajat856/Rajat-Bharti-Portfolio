@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { Check } from "lucide-react";
 import { SpotlightHero } from "@/components/sections/PageHeroes";
 import { CallToAction } from "@/components/sections/CallToAction";
@@ -57,36 +58,46 @@ export default function ServicesPage() {
             {services.map((service, i) => (
               <li key={service.id} id={service.id} className="scroll-mt-28">
                 <Reveal amount={0.15}>
-                  <article className="grid gap-8 py-12 lg:grid-cols-[auto_1.2fr_1fr] lg:gap-14">
+                  <article className="grid gap-8 py-12 lg:grid-cols-[auto_minmax(0,0.95fr)_minmax(0,1.2fr)] lg:gap-12">
                     <span className="font-mono text-xs text-faint lg:pt-2">
                       {String(i + 1).padStart(2, "0")}
                     </span>
+
+                    <div className="relative aspect-[4/3] overflow-hidden rounded-3xl border border-line bg-surface shadow-[0_30px_60px_-40px_rgba(20,10,60,0.45)] lg:sticky lg:top-28 lg:self-start">
+                      <Image
+                        src={service.image}
+                        alt={`${service.title} — illustrative workspace`}
+                        fill
+                        sizes="(min-width: 1024px) 38vw, 100vw"
+                        className="object-cover"
+                      />
+                    </div>
 
                     <div>
                       <h2 className="font-display text-3xl leading-tight tracking-tight sm:text-4xl">
                         {service.title}
                       </h2>
                       <p className="mt-2 text-accent">{service.tagline}</p>
-                      <p className="mt-5 max-w-lg text-sm leading-relaxed text-muted sm:text-base">
+                      <p className="mt-5 max-w-xl text-sm leading-relaxed text-muted sm:text-base">
                         {service.description}
                       </p>
                       <p className="mt-6">
                         <Badge tone="brand">Typical timeline: {service.timeline}</Badge>
                       </p>
-                    </div>
 
-                    <div className="rounded-3xl border border-line bg-surface/40 p-6">
-                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-faint">
-                        What&apos;s included
-                      </p>
-                      <ul className="mt-5 space-y-3">
-                        {service.deliverables.map((d) => (
-                          <li key={d} className="flex gap-3 text-sm leading-relaxed text-muted">
-                            <Check className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
-                            {d}
-                          </li>
-                        ))}
-                      </ul>
+                      <div className="mt-8 rounded-3xl border border-line bg-surface/40 p-6">
+                        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-faint">
+                          What&apos;s included
+                        </p>
+                        <ul className="mt-5 space-y-3">
+                          {service.deliverables.map((d) => (
+                            <li key={d} className="flex gap-3 text-sm leading-relaxed text-muted">
+                              <Check className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden />
+                              {d}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
                   </article>
                 </Reveal>

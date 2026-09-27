@@ -7,6 +7,8 @@ export type Service = {
   startingAt?: string;
   timeline: string;
   icon: "layout" | "shopping" | "cpu" | "code" | "search" | "palette" | "smartphone" | "megaphone";
+  /** Editorial photo shown beside the service on /services (4:3, /public/services). */
+  image: string;
 };
 
 export const services: Service[] = [
@@ -25,6 +27,7 @@ export const services: Service[] = [
     ],
     timeline: "3–6 weeks",
     icon: "layout",
+    image: "/services/web-design.jpg",
   },
   {
     id: "ecommerce",
@@ -41,6 +44,7 @@ export const services: Service[] = [
     ],
     timeline: "4–8 weeks",
     icon: "shopping",
+    image: "/services/ecommerce.jpg",
   },
   {
     id: "ai-automation",
@@ -57,6 +61,7 @@ export const services: Service[] = [
     ],
     timeline: "2–5 weeks",
     icon: "cpu",
+    image: "/services/ai-automation.jpg",
   },
   {
     id: "web-apps",
@@ -73,6 +78,7 @@ export const services: Service[] = [
     ],
     timeline: "6–12 weeks",
     icon: "code",
+    image: "/services/web-apps.jpg",
   },
   {
     id: "seo",
@@ -89,6 +95,7 @@ export const services: Service[] = [
     ],
     timeline: "1–3 weeks",
     icon: "search",
+    image: "/services/seo.jpg",
   },
   {
     id: "brand",
@@ -105,6 +112,7 @@ export const services: Service[] = [
     ],
     timeline: "2–4 weeks",
     icon: "palette",
+    image: "/services/brand.jpg",
   },
   {
     id: "mobile",
@@ -121,6 +129,7 @@ export const services: Service[] = [
     ],
     timeline: "2–4 weeks",
     icon: "smartphone",
+    image: "/services/mobile.jpg",
   },
   {
     id: "growth",
@@ -137,6 +146,7 @@ export const services: Service[] = [
     ],
     timeline: "1–3 weeks",
     icon: "megaphone",
+    image: "/services/growth.jpg",
   },
 ];
 
