@@ -158,6 +158,18 @@ export const graphics: Graphic[] = [
     description: "30s concept commercial for a film-streaming platform — genre reveals, poster walls and the player, in a cinematic red-on-black look.",
   },
   {
+    id: "halden-fintech-ad",
+    title: "Halden — Money, Made Simple.",
+    client: "Halden",
+    category: "Motion Video",
+    format: "video",
+    src: "/graphics/halden-fintech-ad.mp4",
+    thumb: "/graphics/halden-fintech-ad-sm.jpg",
+    preview: "/graphics/halden-fintech-ad-preview.mp4",
+    year: "2026",
+    description: "30s concept commercial for a fintech app — a 3D metal card, tap-to-pay, round-up savings, spending insights and Face ID security, in a calm editorial style.",
+  },
+  {
     id: "shunya-01",
     title: "Join Our Pottery Workshop",
     client: "Shunya Pottery Studio",
