@@ -425,3 +425,6 @@
 @media (prefers-reduced-motion: reduce) {
   .page-enter, .fade-up { animation: none; }
 }
+
+/* Used by hero-lab orbit/ring animations. */
+@keyframes spin { to { transform: rotate(360deg); } }
