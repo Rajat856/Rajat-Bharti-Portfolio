@@ -189,12 +189,13 @@ export function SpotlightHero({
   return (
     <section
       ref={ref}
-      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-[#07060c] pb-16 pt-32 [--sx:50%] [--sy:45%]"
+      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden bg-canvas pb-16 pt-32 [--sx:50%] [--sy:45%]"
     >
       {/* Faint work grid, always hinted */}
       {/* Two large columns on phones (three read as thumbnails), four on desktop.
-          A touch brighter on mobile since there's no spotlight there. */}
-      <div className="absolute inset-[-6%] grid content-center grid-cols-2 gap-3 p-3 opacity-[0.22] md:inset-[-4%] md:grid-cols-4 md:gap-4 md:p-4 md:opacity-[0.13]" aria-hidden>
+          A touch brighter on mobile since there's no spotlight there, and on
+          the light theme, where a faint grid washes out against the pale canvas. */}
+      <div className="absolute inset-[-6%] grid content-center grid-cols-2 gap-3 p-3 opacity-[0.3] md:inset-[-4%] md:grid-cols-4 md:gap-4 md:p-4 md:opacity-[0.2] dark:opacity-[0.22] dark:md:opacity-[0.13]" aria-hidden>
         {grid}
       </div>
       {/* Same grid, fully lit inside the spotlight (cursor on desktop; finger
@@ -209,31 +210,33 @@ export function SpotlightHero({
       >
         {grid}
       </div>
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(7,6,12,0.72)_25%,rgba(7,6,12,0.35)_65%,#07060c_100%)] md:bg-[radial-gradient(ellipse_at_center,rgba(7,6,12,0.6)_20%,rgba(7,6,12,0.25)_55%,#07060c_95%)]" />
+      {/* Vignette in the page colour, so the hero follows the light/dark theme
+          (a little heavier on light, where bright tiles compete with dark text). */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--canvas)_80%,transparent)_25%,color-mix(in_oklab,var(--canvas)_42%,transparent)_65%,var(--canvas)_100%)] md:bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--canvas)_74%,transparent)_20%,color-mix(in_oklab,var(--canvas)_32%,transparent)_55%,var(--canvas)_95%)] dark:bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--canvas)_72%,transparent)_25%,color-mix(in_oklab,var(--canvas)_35%,transparent)_65%,var(--canvas)_100%)] dark:md:bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--canvas)_62%,transparent)_20%,color-mix(in_oklab,var(--canvas)_25%,transparent)_55%,var(--canvas)_95%)]" />
 
       <div className="container-page pointer-events-none relative z-10 text-center">
-        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-white/55">{eyebrow}</p>
+        <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-ink/55">{eyebrow}</p>
         <motion.h1
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease }}
-          className="mx-auto mt-6 max-w-4xl font-display text-[clamp(2.8rem,7.5vw,6.5rem)] leading-[0.92] tracking-[-0.045em] text-white"
+          className="mx-auto mt-6 max-w-4xl font-display text-[clamp(2.8rem,7.5vw,6.5rem)] leading-[0.92] tracking-[-0.045em] text-ink"
         >
           {title}
         </motion.h1>
-        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/75 sm:text-lg">{description}</p>
+        <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-ink/75 sm:text-lg">{description}</p>
         <div className="pointer-events-auto mt-10 flex flex-wrap justify-center gap-3">
           <Button href={primary.href} variant="secondary" size="lg" arrow>
             {primary.label}
           </Button>
           <a
             href={secondary.href}
-            className="inline-flex h-13 items-center rounded-full border border-white/30 px-7 text-[15px] font-medium text-white transition-colors hover:bg-white/10"
+            className="inline-flex h-13 items-center rounded-full border border-ink/25 px-7 text-[15px] font-medium text-ink transition-colors hover:bg-ink/5"
           >
             {secondary.label}
           </a>
         </div>
-        <p className="mt-10 hidden font-mono text-[10px] uppercase tracking-[0.25em] text-white/35 md:block">
+        <p className="mt-10 hidden font-mono text-[10px] uppercase tracking-[0.25em] text-ink/40 md:block">
           {hint}
         </p>
       </div>
